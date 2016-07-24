@@ -6,6 +6,9 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import createStore from './store/createStore'
 import AppContainer from './containers/AppContainer'
 
+// Temporary Material UI thing
+import injectTapEventPlugin from 'react-tap-event-plugin'
+
 // ========================================================
 // Browser History Setup
 // ========================================================
@@ -87,3 +90,6 @@ if (__DEV__) {
 // Go!
 // ========================================================
 render()
+
+// Temporary Material UI thing
+injectTapEventPlugin()

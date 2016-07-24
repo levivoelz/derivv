@@ -1,15 +1,18 @@
 import React from 'react'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Header from '../../components/Header'
 import classes from './CoreLayout.scss'
 import '../../styles/core.scss'
 
 export const CoreLayout = ({ children }) => (
-  <div className='container text-center'>
-    <Header />
-    <div className={classes.mainContainer}>
-      {children}
+  <MuiThemeProvider>
+    <div>
+      <Header />
+      <div className={classes.content}>
+        {children}
+      </div>
     </div>
-  </div>
+  </MuiThemeProvider>
 )
 
 CoreLayout.propTypes = {

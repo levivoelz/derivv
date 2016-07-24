@@ -46,6 +46,13 @@ const MOUNT_NODE = document.getElementById('root')
 let render = () => {
   const routes = require('./routes/index').default(store)
 
+  // Temporary Material UI thing
+  try {
+    injectTapEventPlugin()
+  } catch (err) {
+    console.error(err)
+  }
+
   ReactDOM.render(
     <AppContainer
       store={store}
@@ -90,6 +97,3 @@ if (__DEV__) {
 // Go!
 // ========================================================
 render()
-
-// Temporary Material UI thing
-injectTapEventPlugin()

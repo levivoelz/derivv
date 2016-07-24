@@ -1,8 +1,10 @@
 import React from 'react'
-import classes from './HomeView.scss'
+
+import ImageUploader from '../containers/ImageUploader'
 
 export const HomeView = () => (
   <div>
+    <ImageUploader />
   </div>
 )
 

@@ -1,12 +1,10 @@
 import React from 'react'
-import { IndexLink, Link } from 'react-router'
-import AppBar from 'material-ui/AppBar';
-import classes from './Header.scss'
+import AppBar from 'material-ui/AppBar'
 
 export const Header = () => (
   <AppBar
-    title="Derivv"
-    iconClassNameRight="muidocs-icon-navigation-expand-more"
+    title='Derivv'
+    iconClassNameRight='muidocs-icon-navigation-expand-more'
     showMenuIconButton={false} />
 )
 

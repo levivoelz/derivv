@@ -50,10 +50,11 @@
       }
     },
     "deploy:prod": {
-      "command": "npm run deploy",
+      "command": "npm run deploy && aws s3 sync dist s3://derivv.com --delete",
       "env": {
         "NODE_ENV": "production",
-        "DEBUG": "app:*"
+        "DEBUG": "app:*",
+        "AWS_DEFAULT_REGION": "us-west-2"
       }
     },
     "start": {

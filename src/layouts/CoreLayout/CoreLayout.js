@@ -7,7 +7,7 @@ import '../../styles/core.scss'
 export const CoreLayout = ({ children }) => (
   <MuiThemeProvider>
     <div>
-      <Header />
+      
       <div className={classes.content}>
         {children}
       </div>

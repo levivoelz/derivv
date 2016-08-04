@@ -48,12 +48,12 @@ const ACTION_HANDLERS = {
     return {...state, derivatives: state.derivatives.concat(action.payload)}
   },
   [FILE_DOWNLOAD_DERIVATIVES]: (state, action) => {
-    const zip = new JSZip();
-    const folder = zip.folder('derivatives');
+    const zip = new JSZip()
+    const folder = zip.folder('derivatives')
 
     state.derivatives.forEach((d) => {
       const fileName = `${d.name}.${d.extension}`
-      folder.file(fileName, d.blob);
+      folder.file(fileName, d.blob)
     })
 
     zip.generateAsync({type:"blob"})

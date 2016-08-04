@@ -1,3 +1,6 @@
+import { saveAs } from 'file-saver'
+import JSZip from 'jszip'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -22,10 +25,9 @@ export function addDerivative (derivative) {
   }
 }
 
-export function downloadDerivatives (images) {
+export function downloadDerivatives () {
   return {
-    type: FILE_DOWNLOAD_DERIVATIVES,
-    payload: images
+    type: FILE_DOWNLOAD_DERIVATIVES
   }
 }
 
@@ -46,7 +48,19 @@ const ACTION_HANDLERS = {
     return {...state, derivatives: state.derivatives.concat(action.payload)}
   },
   [FILE_DOWNLOAD_DERIVATIVES]: (state, action) => {
-    console.log('downloading...', action.payload)
+    const zip = new JSZip();
+    const folder = zip.folder('derivatives');
+
+    state.derivatives.forEach((d) => {
+      const fileName = `${d.name}.${d.extension}`
+      folder.file(fileName, d.blob);
+    })
+
+    zip.generateAsync({type:"blob"})
+      .then((content) => {
+        saveAs(content, 'derivatives.zip')
+      })
+
     return state
   }
 }

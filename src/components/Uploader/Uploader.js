@@ -7,7 +7,7 @@ export const Uploader = ({addImage, image}) => {
   const renderContent = () => (
     image.preview
       ? <img src={image.preview} className={classes.preview} />
-    : <RaisedButton label='Choose an image' fullWidth={true} />
+      : <RaisedButton label='Choose an image' fullWidth={true} />
   )
 
   return (

@@ -9,9 +9,19 @@ export const ImageProcessButton = (props) => {
   const disabled = Object.keys(image).length === 0
 
   const handleClick = () => {
-    dimensionsList.forEach((dimensions) => {
-      resizeImage(image.preview, dimensions, (img) => {
-        addDerivative(img);
+    const imageNameArr = image.name.split('.')
+    const extension = imageNameArr.splice(imageNameArr.length - 1, 1).join()
+    const imageName = imageNameArr.join()
+
+    dimensionsList.forEach((dimensions, i) => {
+      resizeImage(image.preview, dimensions, (blob, base64) => {
+        addDerivative({
+          src: URL.createObjectURL(blob),
+          blob,
+          base64,
+          name: `${imageName}_${dimensions.width}_x_${dimensions.height}`,
+          extension
+        });
       })
     })
   }
@@ -21,7 +31,7 @@ export const ImageProcessButton = (props) => {
       disabled={disabled}
       label='Process'
       onTouchTap={handleClick}
-      fullWidth={true} />
+      fullWidth />
   )
 }
 

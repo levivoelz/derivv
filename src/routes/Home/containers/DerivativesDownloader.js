@@ -4,7 +4,7 @@ import { downloadDerivatives } from 'modules/file'
 import DownloadButton from 'components/DownloadButton'
 
 const mapStateToProps = (state) => ({
-
+  disabled: !state.file.downloadable
 })
 
 const mapActionCreators = {

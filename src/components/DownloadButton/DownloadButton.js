@@ -11,6 +11,7 @@ export const DownloadButton = ({onClick, disabled}) => {
     <div className={classes['DownloadButton']}>
       <RaisedButton
         disabled={disabled}
+        primary
         label='Download Derivatives'
         onTouchTap={handleClick}
         fullWidth />

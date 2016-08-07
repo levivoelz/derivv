@@ -6,6 +6,7 @@ import JSZip from 'jszip'
 // ------------------------------------
 export const FILE_ADD_IMAGE = 'FILE_ADD_IMAGE'
 export const FILE_DOWNLOAD_DERIVATIVES = 'FILE_DOWNLOAD_DERIVATIVES'
+export const FILE_ENABLE_DOWNLOAD = 'FILE_ENABLE_DOWNLOAD'
 export const FILE_ADD_DERIVATIVE = 'FILE_ADD_DERIVATIVE'
 
 // ------------------------------------
@@ -25,6 +26,12 @@ export function addDerivative (derivative) {
   }
 }
 
+export function enableDownload () {
+  return {
+    type: FILE_ENABLE_DOWNLOAD
+  }
+}
+
 export function downloadDerivatives () {
   return {
     type: FILE_DOWNLOAD_DERIVATIVES
@@ -34,6 +41,7 @@ export function downloadDerivatives () {
 export const actions = {
   addImage,
   addDerivative,
+  enableDownload,
   downloadDerivatives
 }
 
@@ -47,6 +55,7 @@ const ACTION_HANDLERS = {
   [FILE_ADD_DERIVATIVE]: (state, action) => {
     return {...state, derivatives: state.derivatives.concat(action.payload)}
   },
+  [FILE_ENABLE_DOWNLOAD]: (state, action) => ({...state, downloadable: true}),
   [FILE_DOWNLOAD_DERIVATIVES]: (state, action) => {
     const zip = new JSZip()
     const folder = zip.folder('derivatives')
@@ -70,7 +79,8 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   image: {},
-  derivatives: []
+  derivatives: [],
+  downloadable: false
 }
 
 export default function fileReducer (state = initialState, action) {

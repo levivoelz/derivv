@@ -5,7 +5,7 @@ import resizeImage from 'lib/resizeImage'
 import classes from './ImageProcessButton.scss'
 
 export const ImageProcessButton = (props) => {
-  const {image, dimensionsList, addDerivative} = props
+  const {image, dimensionsList, addDerivative, enableDownload} = props
   const disabled = Object.keys(image).length === 0
 
   const handleClick = () => {
@@ -24,6 +24,8 @@ export const ImageProcessButton = (props) => {
         });
       })
     })
+
+    enableDownload()
   }
 
   return (

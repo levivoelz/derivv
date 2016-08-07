@@ -50,24 +50,30 @@ export const actions = {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [FILE_ADD_IMAGE]: (state, action) => {
-    return {...state, image: action.payload[0]}
+    return {...state, image: action.payload[0], derivatives: []}
   },
   [FILE_ADD_DERIVATIVE]: (state, action) => {
+    if (state.derivatives.filter((d) => d.id === action.payload.id).length > 0) {
+      return state
+    }
+
     return {...state, derivatives: state.derivatives.concat(action.payload)}
   },
   [FILE_ENABLE_DOWNLOAD]: (state, action) => ({...state, downloadable: true}),
   [FILE_DOWNLOAD_DERIVATIVES]: (state, action) => {
     const zip = new JSZip()
     const folder = zip.folder('derivatives')
+    let originalName
 
     state.derivatives.forEach((d) => {
       const fileName = `${d.name}.${d.extension}`
       folder.file(fileName, d.blob)
+      originalName = d.originalName
     })
 
     zip.generateAsync({type:"blob"})
       .then((content) => {
-        saveAs(content, 'derivatives.zip')
+        saveAs(content, `${originalName}-derivatives.zip`)
       })
 
     return state

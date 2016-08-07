@@ -33,9 +33,7 @@ export const resizeImage = (src, dimensions, callback) => {
     const yOffset = Math.floor((canvasYCenter - imageYCenter))
 
     context.drawImage(img, xOffset, yOffset, width, height)
-    canvas.toBlob((blob) => {
-      callback(blob, canvas.toDataURL())
-    })
+    canvas.toBlob((blob) => { callback(blob) })
   }
 }
 

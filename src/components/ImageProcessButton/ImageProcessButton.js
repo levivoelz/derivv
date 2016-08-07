@@ -14,11 +14,12 @@ export const ImageProcessButton = (props) => {
     const imageName = imageNameArr.join()
 
     dimensionsList.forEach((dimensions, i) => {
-      resizeImage(image.preview, dimensions, (blob, base64) => {
+      resizeImage(image.preview, dimensions, (blob) => {
         addDerivative({
+          originalName: imageName,
+          id: dimensions.id,
           src: URL.createObjectURL(blob),
           blob,
-          base64,
           name: `${imageName}_${dimensions.width}_x_${dimensions.height}`,
           extension
         });

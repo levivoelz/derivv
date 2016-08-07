@@ -4,22 +4,22 @@ export const resizeImage = (src, dimensions, callback) => {
   const context = canvas.getContext('2d')
   img.src = src
 
-  img.onload = function() {
+  img.onload = function () {
     const destWidth = dimensions.width
     const destHeight = dimensions.height
     const srcWidth = img.width
     const srcHeight = img.height
     let width, height
 
-    const scale_x = destWidth / srcWidth
-    const scale_y = destHeight / srcHeight
+    const scaleX = destWidth / srcWidth
+    const scaleY = destHeight / srcHeight
 
-    if (scale_x >= scale_y) {
-      width = Math.ceil(scale_x * (srcWidth))
-      height = Math.ceil(scale_x * (srcHeight))
+    if (scaleX >= scaleY) {
+      width = Math.ceil(scaleX * (srcWidth))
+      height = Math.ceil(scaleX * (srcHeight))
     } else {
-      width = Math.ceil(scale_y * (srcWidth))
-      height = Math.ceil(scale_y * (srcHeight))
+      width = Math.ceil(scaleY * (srcWidth))
+      height = Math.ceil(scaleY * (srcHeight))
     }
 
     canvas.width = destWidth

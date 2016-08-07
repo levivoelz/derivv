@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import TextField from 'material-ui/TextField'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
@@ -6,7 +6,6 @@ import ContentClear from 'material-ui/svg-icons/content/clear'
 import { TableRow, TableRowColumn } from 'material-ui/Table'
 
 export const Dimensions = (props) => {
-  const fieldStyle = {marginRight: 10}
   const {dimensions, onAddClick, onRemoveClick, onChange, lastItem, onlyItem} = props
   const handleRemoveClick = () => { onRemoveClick(dimensions.id) }
   const handleChange = (e) => {
@@ -41,13 +40,27 @@ export const Dimensions = (props) => {
           type='number' />
       </TableRowColumn>
       <TableRowColumn>
-        <FloatingActionButton disabled={onlyItem} style={{marginRight: 10}} mini zDepth={0} onTouchTap={handleRemoveClick}>
+        <FloatingActionButton
+          disabled={onlyItem}
+          style={{marginRight: 10}}
+          mini
+          zDepth={0}
+          onTouchTap={handleRemoveClick}>
           <ContentClear />
         </FloatingActionButton>
         {lastItem ? renderAddButton() : ' '}
       </TableRowColumn>
     </TableRow>
   )
+}
+
+Dimensions.propTypes = {
+  dimensions: PropTypes.object.isRequired,
+  onAddClick: PropTypes.func.isRequired,
+  onRemoveClick: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  lastItem: PropTypes.bool.isRequired,
+  onlyItem: PropTypes.bool.isRequired
 }
 
 export default Dimensions

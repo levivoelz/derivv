@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import { addDerivative, enableDownload } from 'modules/file'
-import { dimensionsList } from 'modules/configuration'
 
 import ImageProcessButton from 'components/ImageProcessButton'
 

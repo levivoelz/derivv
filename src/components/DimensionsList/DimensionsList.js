@@ -1,6 +1,5 @@
-import React from 'react'
-import { Table, TableBody, TableHeader, TableHeaderColumn,
-  TableRow } from 'material-ui/Table'
+import React, { PropTypes } from 'react'
+import { Table, TableBody } from 'material-ui/Table'
 
 import Dimensions from 'components/Dimensions'
 
@@ -33,6 +32,13 @@ export const DimensionsList = (props) => {
       </TableBody>
     </Table>
   )
+}
+
+DimensionsList.propTypes = {
+  dimensionsList: PropTypes.array.isRequired,
+  addDimensions: PropTypes.func.isRequired,
+  removeDimensions: PropTypes.func.isRequired,
+  updateDimensions: PropTypes.func.isRequired
 }
 
 export default DimensionsList

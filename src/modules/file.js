@@ -62,18 +62,17 @@ const ACTION_HANDLERS = {
   [FILE_ENABLE_DOWNLOAD]: (state, action) => ({...state, downloadable: true}),
   [FILE_DOWNLOAD_DERIVATIVES]: (state, action) => {
     const zip = new JSZip()
-    const folder = zip.folder('derivatives')
-    let originalName
+    const folderName = `${state.derivatives[0].originalName}-derivatives`
+    const folder = zip.folder(folderName)
 
     state.derivatives.forEach((d) => {
       const fileName = `${d.name}.${d.extension}`
       folder.file(fileName, d.blob)
-      originalName = d.originalName
     })
 
-    zip.generateAsync({type:"blob"})
+    zip.generateAsync({type: 'blob'})
       .then((content) => {
-        saveAs(content, `${originalName}-derivatives.zip`)
+        saveAs(content, `${folderName}.zip`)
       })
 
     return state

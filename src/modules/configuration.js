@@ -49,7 +49,7 @@ const ACTION_HANDLERS = {
   [CONFIGURATION_REMOVE_DIMENSIONS]: (state, action) => {
     if (state.dimensionsList.length > 1) {
       return {dimensionsList: state.dimensionsList.filter((d) => (
-        d.id != action.payload
+        d.id !== action.payload
       ))}
     }
 

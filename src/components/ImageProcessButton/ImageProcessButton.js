@@ -1,8 +1,6 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import RaisedButton from 'material-ui/RaisedButton'
 import resizeImage from 'lib/resizeImage'
-
-import classes from './ImageProcessButton.scss'
 
 export const ImageProcessButton = (props) => {
   const {image, dimensionsList, addDerivative, enableDownload} = props
@@ -22,7 +20,7 @@ export const ImageProcessButton = (props) => {
           blob,
           name: `${imageName}_${dimensions.width}_x_${dimensions.height}`,
           extension
-        });
+        })
       })
     })
 
@@ -36,6 +34,13 @@ export const ImageProcessButton = (props) => {
       onTouchTap={handleClick}
       fullWidth />
   )
+}
+
+ImageProcessButton.propTypes = {
+  image: PropTypes.object.isRequired,
+  dimensionsList: PropTypes.array.isRequired,
+  addDerivative: PropTypes.func.isRequired,
+  enableDownload: PropTypes.func.isRequired
 }
 
 export default ImageProcessButton

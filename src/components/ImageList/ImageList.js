@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import classes from './ImageList.scss'
 
 export const Image = ({image}) => {
@@ -11,10 +11,18 @@ export const Image = ({image}) => {
   )
 }
 
+Image.propTypes = {
+  image: PropTypes.object.isRequired
+}
+
 export const ImageList = ({images}) => (
   <div className={classes['ImageList']}>
     {images.map((image, i) => <Image key={i} image={image} />)}
   </div>
 )
+
+ImageList.propTypes = {
+  images: PropTypes.array.isRequired
+}
 
 export default ImageList

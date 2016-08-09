@@ -91,6 +91,17 @@ if (!__TEST__) {
   )
 }
 
+
+// ------------------------------------
+// Polyfills
+// ------------------------------------
+// TODO: fix this and pull out of ImageProcessButton file
+// webpackConfig.plugins.push(
+//   new webpack.ProvidePlugin({
+//     'toBlob': 'blueimp-canvas-to-blob'
+//   })
+// )
+
 // ------------------------------------
 // Pre-Loaders
 // ------------------------------------

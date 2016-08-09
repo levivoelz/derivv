@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import RaisedButton from 'material-ui/RaisedButton'
 import resizeImage from 'lib/resizeImage'
+import 'blueimp-canvas-to-blob'
 
 export const ImageProcessButton = (props) => {
   const {image, dimensionsList, addDerivative, enableDownload} = props

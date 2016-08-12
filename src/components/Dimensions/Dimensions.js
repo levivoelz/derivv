@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import TextField from 'material-ui/TextField'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
-import ContentClear from 'material-ui/svg-icons/content/clear'
+import ContentRemove from 'material-ui/svg-icons/content/remove'
 import { TableRow, TableRowColumn } from 'material-ui/Table'
 
 export const Dimensions = (props) => {
@@ -46,7 +46,7 @@ export const Dimensions = (props) => {
           mini
           zDepth={0}
           onTouchTap={handleRemoveClick}>
-          <ContentClear />
+          <ContentRemove />
         </FloatingActionButton>
         {lastItem ? renderAddButton() : ' '}
       </TableRowColumn>

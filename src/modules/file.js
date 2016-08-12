@@ -1,9 +1,12 @@
 import { saveAs } from 'file-saver'
 import JSZip from 'jszip'
+import loadImage from 'blueimp-load-image'
 
 // ------------------------------------
 // Constants
 // ------------------------------------
+export const FILE_START = 'FILE_START'
+export const FILE_STOP = 'FILE_STOP'
 export const FILE_ADD_IMAGE = 'FILE_ADD_IMAGE'
 export const FILE_DOWNLOAD_DERIVATIVES = 'FILE_DOWNLOAD_DERIVATIVES'
 export const FILE_ENABLE_DOWNLOAD = 'FILE_ENABLE_DOWNLOAD'
@@ -12,6 +15,20 @@ export const FILE_ADD_DERIVATIVE = 'FILE_ADD_DERIVATIVE'
 // ------------------------------------
 // Actions
 // ------------------------------------
+export function fileStart () {
+  return {
+    type: FILE_START,
+    acting: true
+  }
+}
+
+export function fileStop () {
+  return {
+    type: FILE_STOP,
+    acting: false
+  }
+}
+
 export function addImage (image) {
   return {
     type: FILE_ADD_IMAGE,
@@ -38,8 +55,39 @@ export function downloadDerivatives () {
   }
 }
 
+export function addImageAsync(images) {
+  return (dispatch) => {
+    dispatch(fileStart())
+    const image = images[0]
+    const imageUrl = image.preview
+
+    loadImage.parseMetaData(
+      image,
+      (data) => {
+        let orientation = 0
+        if(typeof(data.exif) !== 'undefined') {
+          orientation = parseInt(data.exif.get('Orientation'))
+        }
+
+        loadImage(
+          image,
+          function(canvas) {
+            canvas.toBlob((blob) => {
+              image.preview = URL.createObjectURL(blob)
+              dispatch(addImage(image))
+              dispatch(fileStop())
+            })
+          },
+          { orientation, canvas: true }
+        )
+      }
+    )
+  }
+}
+
 export const actions = {
   addImage,
+  addImageAsync,
   addDerivative,
   enableDownload,
   downloadDerivatives
@@ -50,7 +98,7 @@ export const actions = {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [FILE_ADD_IMAGE]: (state, action) => {
-    return {...state, image: action.payload[0], derivatives: []}
+    return {...state, image: action.payload, derivatives: []}
   },
   [FILE_ADD_DERIVATIVE]: (state, action) => {
     if (state.derivatives.filter((d) => d.id === action.payload.id).length > 0) {

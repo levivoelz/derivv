@@ -3,17 +3,13 @@ import RaisedButton from 'material-ui/RaisedButton'
 import classes from './DownloadButton.scss'
 
 export const DownloadButton = ({onClick, disabled}) => {
-  const handleClick = () => {
-    onClick()
-  }
-
   return (
     <div className={classes['DownloadButton']}>
       <RaisedButton
         disabled={disabled}
         primary
         label='Download Derivatives'
-        onTouchTap={handleClick}
+        onTouchTap={onClick}
         fullWidth />
     </div>
   )

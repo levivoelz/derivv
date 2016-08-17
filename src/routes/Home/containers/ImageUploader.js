@@ -1,14 +1,15 @@
 import { connect } from 'react-redux'
-import { addImageAsync } from 'modules/file'
+import { addImage } from 'modules/originalImage'
 
 import Uploader from 'components/Uploader'
 
 const mapStateToProps = (state) => ({
-  image: state.file.image
+  image: state.originalImage.file,
+  loading: state.originalImage.acting
 })
 
 const mapActionCreators = {
-  addImageAsync
+  addImage
 }
 
 export default connect(mapStateToProps, mapActionCreators)(Uploader)

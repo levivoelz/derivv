@@ -1,14 +1,16 @@
 import { combineReducers } from 'redux'
 import { routerReducer as router } from 'react-router-redux'
 
-import file from 'modules/file'
+import originalImage from 'modules/originalImage'
 import configuration from 'modules/configuration'
+import derivative from 'modules/derivative'
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
     // Add sync reducers here
     configuration,
-    file,
+    originalImage,
+    derivative,
     router,
     ...asyncReducers
   })

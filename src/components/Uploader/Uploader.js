@@ -2,26 +2,72 @@ import React, { PropTypes } from 'react'
 import Dropzone from 'react-dropzone'
 import classes from './Uploader.scss'
 import RaisedButton from 'material-ui/RaisedButton'
+import CircularProgress from 'material-ui/CircularProgress';
 
-export const Uploader = ({addImageAsync, image}) => {
-  const renderContent = () => (
-    image.preview
-      ? <img src={image.preview} className={classes.preview} />
-      : <RaisedButton label='Choose or drop an image' fullWidth />
+// ImagePreview
+import placeholder from './assets/image-placeholder.svg'
+
+const propTypes = {
+  addImage: PropTypes.func.isRequired,
+  image: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired
+}
+
+export const ImagePreview = ({image}) => {
+  if (!image) { return <img src={placeholder} /> }
+
+  return (
+    <div>
+      <img src={image} className={classes.preview} />
+    </div>
   )
+}
+
+export const Uploader = ({addImage, image, loading}) => {
+  const renderContent = () => {
+    if (loading) {
+      return <div className={classes.content}><CircularProgress /></div>
+    }
+
+    return (
+      <div className={classes.content}>
+        <div className={classes.left}>
+          <ImagePreview image={image.preview} />
+        </div>
+        <div className={classes.right}>
+          <h3>Drop or</h3>
+          <RaisedButton label='choose an image' fullWidth primary />
+        </div>
+      </div>
+    )
+  }
+
+  const handleDrop = (files) => {
+    addImage(files[0])
+  }
+
+  const baseStyle = {
+    width: '100%',
+    height: '100%'
+  }
+
+  const activeStyle = {
+    opacity: 0.5
+  }
 
   return (
     <div className={classes.wrapper}>
-      <Dropzone onDrop={addImageAsync} style={{width: '100%', height: '100%'}} multiple={false}>
+      <Dropzone
+        onDrop={handleDrop}
+        activeStyle={activeStyle}
+        style={baseStyle}
+        multiple={false}>
         {renderContent()}
       </Dropzone>
     </div>
   )
 }
 
-Uploader.propTypes = {
-  addImageAsync: PropTypes.func.isRequired,
-  image: PropTypes.object.isRequired
-}
+Uploader.propTypes = propTypes
 
 export default Uploader

@@ -1,15 +1,15 @@
 import { connect } from 'react-redux'
-import { addDerivative, enableDownload } from 'modules/file'
+import { add, enableDownload } from 'modules/derivative'
 
 import ImageProcessButton from 'components/ImageProcessButton'
 
 const mapStateToProps = (state) => ({
   dimensionsList: state.configuration.dimensionsList,
-  image: state.file.image
+  image: state.originalImage.file
 })
 
 const mapActionCreators = {
-  addDerivative,
+  addDerivative: add,
   enableDownload
 }
 

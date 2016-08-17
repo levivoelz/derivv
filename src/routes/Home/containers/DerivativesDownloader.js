@@ -1,14 +1,14 @@
 import { connect } from 'react-redux'
-import { downloadDerivatives } from 'modules/file'
+import { downloadAll } from 'modules/derivative'
 
 import DownloadButton from 'components/DownloadButton'
 
 const mapStateToProps = (state) => ({
-  disabled: !state.file.downloadable || state.file.derivatives.length === 0
+  disabled: !state.derivative.downloadable || state.derivative.images.length === 0
 })
 
 const mapActionCreators = {
-  onClick: downloadDerivatives
+  onClick: downloadAll
 }
 
 export default connect(mapStateToProps, mapActionCreators)(DownloadButton)

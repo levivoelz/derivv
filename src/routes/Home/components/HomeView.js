@@ -11,9 +11,17 @@ import classes from './HomeView.scss'
 export const HomeView = () => (
   <div className={classes.wrapper}>
     <ImageUploader />
+
+    {/* Configuration */}
     <DimensionsConfigurator />
+
+    {/* Remove */}
     <ImageProcessor />
+
+    {/* DerivativeReview */}
     <ImageDisplayer />
+
+    {/* Remove */}
     <DerivativesDownloader />
   </div>
 )

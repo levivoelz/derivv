@@ -1,5 +1,6 @@
 import React from 'react'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import Dialog from 'material-ui/Dialog';
 import classes from './CoreLayout.scss'
 import '../../styles/core.scss'
@@ -16,12 +17,22 @@ export const CoreLayout = ({ children }) => {
     )
   }
 
+  // https://github.com/callemall/material-ui/blob/master/src/styles/getMuiTheme.js
+  const theme = getMuiTheme({
+    palette: {
+      primary1Color: '#57ac89',
+      primary2Color: '#ccc',
+      primary3Color: '#ccc',
+      textColor: '#575756',
+      secondaryTextColor: '#333',
+      alternateTextColor: '#fff'
+    }
+  });
+
   return (
-    <MuiThemeProvider>
-      <div>
-        <div className={classes.content}>
-          {children}
-        </div>
+    <MuiThemeProvider muiTheme={theme}>
+      <div className={classes.content}>
+        {children}
       </div>
     </MuiThemeProvider>
   )

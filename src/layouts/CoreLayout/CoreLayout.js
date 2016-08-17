@@ -8,10 +8,10 @@ export const CoreLayout = ({ children }) => {
   if (navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i)) {
     return (
       <Dialog
-          title="Mobile devices aren't supported yet!"
+          title="Mobile device support coming soon!"
           modal={false}
           open>
-        Sorry! Currently, mobile is not supported. Please try on a desktop device.
+        Sorry! Currently, mobile devices are not supported. Please try the app out on your desktop computer.
       </Dialog>
     )
   }

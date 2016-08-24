@@ -1,12 +1,30 @@
 import React, { PropTypes } from 'react'
 import TextField from 'material-ui/TextField'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
-import ContentAdd from 'material-ui/svg-icons/content/add'
-import ContentRemove from 'material-ui/svg-icons/content/remove'
+import IconButton from 'material-ui/IconButton'
+import ContentAdd from 'material-ui/svg-icons/content/add-circle-outline'
+import ContentRemove from 'material-ui/svg-icons/content/remove-circle-outline'
 import { TableRow, TableRowColumn } from 'material-ui/Table'
 
+const propTypes = {
+  dimensions: PropTypes.object.isRequired,
+  onAddClick: PropTypes.func.isRequired,
+  onRemoveClick: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  lastItem: PropTypes.bool.isRequired,
+  onlyItem: PropTypes.bool.isRequired
+}
+
 export const Dimensions = (props) => {
-  const {dimensions, onAddClick, onRemoveClick, onChange, lastItem, onlyItem} = props
+  const {
+    dimensions,
+    onAddClick,
+    onRemoveClick,
+    onChange,
+    lastItem,
+    onlyItem,
+    listNum
+  } = props
   const handleRemoveClick = () => { onRemoveClick(dimensions.id) }
   const handleChange = (e) => {
     onChange({
@@ -16,13 +34,20 @@ export const Dimensions = (props) => {
   }
 
   const renderAddButton = () => (
-    <FloatingActionButton mini zDepth={0} onTouchTap={onAddClick}>
-      <ContentAdd />
-    </FloatingActionButton>
+    <IconButton
+      onTouchTap={onAddClick}
+      style={buttonStyles}>
+      <ContentAdd color='#57ac89' />
+    </IconButton>
   )
+
+  const buttonStyles = {padding: 0, width: 30, height: 30}
 
   return (
     <TableRow displayBorder={false}>
+      <TableRowColumn style={{width: 10}}>
+        <h4 style={{lineHeight: '1.8em'}}>{listNum}.</h4>
+      </TableRowColumn>
       <TableRowColumn>
         <TextField
           floatingLabelText='width in px'
@@ -40,27 +65,18 @@ export const Dimensions = (props) => {
           type='number' />
       </TableRowColumn>
       <TableRowColumn>
-        <FloatingActionButton
+        <IconButton
           disabled={onlyItem}
-          style={{marginRight: 10}}
-          mini
-          zDepth={0}
+          style={buttonStyles}
           onTouchTap={handleRemoveClick}>
-          <ContentRemove />
-        </FloatingActionButton>
+          <ContentRemove color='#57ac89' />
+        </IconButton>
         {lastItem ? renderAddButton() : ' '}
       </TableRowColumn>
     </TableRow>
   )
 }
 
-Dimensions.propTypes = {
-  dimensions: PropTypes.object.isRequired,
-  onAddClick: PropTypes.func.isRequired,
-  onRemoveClick: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  lastItem: PropTypes.bool.isRequired,
-  onlyItem: PropTypes.bool.isRequired
-}
+Dimensions.propTypes = propTypes
 
 export default Dimensions

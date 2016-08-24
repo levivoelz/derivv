@@ -3,9 +3,9 @@ import { Table, TableBody } from 'material-ui/Table'
 
 import Dimensions from 'components/Dimensions'
 
-import classes from './DimensionsList.scss'
+import classes from './ConfigList.scss'
 
-export const DimensionsList = (props) => {
+export const ConfigList = (props) => {
   const {dimensionsList, addDimensions, removeDimensions, updateDimensions} = props
   const renderDimensions = (d, i) => {
     const list = dimensionsList
@@ -15,7 +15,9 @@ export const DimensionsList = (props) => {
     if (list[list.length - 1].id === d.id) { lastItem = true }
 
     return (
-      <Dimensions key={d.id}
+      <Dimensions
+        listNum={i+1}
+        key={d.id}
         dimensions={d}
         lastItem={lastItem}
         onlyItem={onlyItem}
@@ -26,19 +28,22 @@ export const DimensionsList = (props) => {
   }
 
   return (
-    <Table selectable={false} className={classes.wrapper}>
-      <TableBody>
-        {dimensionsList.map(renderDimensions)}
-      </TableBody>
-    </Table>
+    <div>
+      <h2>Configure Sizes</h2>
+      <Table selectable={false} className={classes.wrapper}>
+        <TableBody>
+          {dimensionsList.map(renderDimensions)}
+        </TableBody>
+      </Table>
+    </div>
   )
 }
 
-DimensionsList.propTypes = {
+ConfigList.propTypes = {
   dimensionsList: PropTypes.array.isRequired,
   addDimensions: PropTypes.func.isRequired,
   removeDimensions: PropTypes.func.isRequired,
   updateDimensions: PropTypes.func.isRequired
 }
 
-export default DimensionsList
+export default ConfigList

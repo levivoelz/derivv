@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { actions } from 'modules/configuration'
 
-import DimensionsList from 'components/DimensionsList'
+import ConfigList from 'components/ConfigList'
 
 const { addDimensions, removeDimensions, updateDimensions } = actions
 
@@ -15,4 +15,4 @@ const mapActionCreators = {
   updateDimensions
 }
 
-export default connect(mapStateToProps, mapActionCreators)(DimensionsList)
+export default connect(mapStateToProps, mapActionCreators)(ConfigList)

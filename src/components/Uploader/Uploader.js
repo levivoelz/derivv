@@ -35,8 +35,8 @@ export const Uploader = ({addImage, image, loading}) => {
           <ImagePreview image={image.preview} />
         </div>
         <div className={classes.right}>
-          <h3>Drop or</h3>
-          <RaisedButton label='choose an image' fullWidth primary />
+          <h2>Drop or</h2>
+          <RaisedButton label='choose an image' fullWidth primary style={{marginTop: 10}} />
         </div>
       </div>
     )

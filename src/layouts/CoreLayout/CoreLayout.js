@@ -24,7 +24,7 @@ export const CoreLayout = ({ children }) => {
       primary2Color: '#ccc',
       primary3Color: '#ccc',
       textColor: '#575756',
-      secondaryTextColor: '#333',
+      secondaryTextColor: '#575756',
       alternateTextColor: '#fff'
     }
   });

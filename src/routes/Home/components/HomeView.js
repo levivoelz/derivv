@@ -4,7 +4,6 @@ import Uploader from '../containers/Uploader'
 import Configuration from '../containers/Configuration'
 import ImageProcessor from '../containers/ImageProcessor'
 import ImageDisplayer from '../containers/ImageDisplayer'
-import DerivativesDownloader from '../containers/DerivativesDownloader'
 
 import classes from './HomeView.scss'
 
@@ -16,13 +15,11 @@ export const HomeView = () => (
     <Configuration />
 
     {/* Remove */}
+    <div style={{paddingBottom: 40}}></div>
     <ImageProcessor />
 
     {/* DerivativeReview */}
     <ImageDisplayer />
-
-    {/* Remove */}
-    <DerivativesDownloader />
   </div>
 )
 

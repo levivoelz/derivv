@@ -8,9 +8,9 @@ export const DownloadButton = ({onClick, disabled}) => {
       <RaisedButton
         disabled={disabled}
         primary
-        label='Download Derivatives'
-        onTouchTap={onClick}
-        fullWidth />
+        style={{marginTop: 10}}
+        label='Download All'
+        onTouchTap={onClick} />
     </div>
   )
 }

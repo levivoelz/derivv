@@ -31,7 +31,8 @@ export const ImageProcessButton = (props) => {
   return (
     <RaisedButton
       disabled={disabled}
-      label='Process'
+      primary
+      label='Create Derivatives'
       onTouchTap={handleClick}
       fullWidth />
   )

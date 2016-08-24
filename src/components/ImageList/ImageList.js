@@ -4,6 +4,7 @@ import classes from './ImageList.scss'
 export const Image = ({image}) => {
   return (
     <div style={{padding: '20px 0'}}>
+      <hr />
       <img src={image.src} />
       <div>Name: {image.name}</div>
       <div>Type: {image.extension}</div>

@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import { addImage } from 'modules/originalImage'
+import { clearAll } from 'modules/derivative'
 
 import Uploader from 'components/Uploader'
 
@@ -9,7 +10,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapActionCreators = {
-  addImage
+  addImage,
+  clearAllDerivatives: clearAll
 }
 
 export default connect(mapStateToProps, mapActionCreators)(Uploader)

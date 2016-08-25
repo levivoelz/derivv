@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import TextField from 'material-ui/TextField'
-import FloatingActionButton from 'material-ui/FloatingActionButton'
 import IconButton from 'material-ui/IconButton'
 import ContentAdd from 'material-ui/svg-icons/content/add-circle-outline'
 import ContentRemove from 'material-ui/svg-icons/content/remove-circle-outline'
@@ -12,7 +11,8 @@ const propTypes = {
   onRemoveClick: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   lastItem: PropTypes.bool.isRequired,
-  onlyItem: PropTypes.bool.isRequired
+  onlyItem: PropTypes.bool.isRequired,
+  listNum: PropTypes.number.isRequired
 }
 
 export const Dimensions = (props) => {

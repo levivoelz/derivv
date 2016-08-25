@@ -1,4 +1,3 @@
-import { saveAs } from 'file-saver'
 import loadImage from 'blueimp-load-image'
 import 'blueimp-canvas-to-blob'
 
@@ -42,7 +41,7 @@ export function addImage (image) {
       image,
       (data) => {
         let orientation = 0
-        if(typeof(data.exif) !== 'undefined') {
+        if (typeof (data.exif) !== 'undefined') {
           image.exif = data.exif
           orientation = parseInt(data.exif.get('Orientation'))
         }

@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import Dropzone from 'react-dropzone'
 import classes from './Uploader.scss'
 import RaisedButton from 'material-ui/RaisedButton'
-import CircularProgress from 'material-ui/CircularProgress';
+import CircularProgress from 'material-ui/CircularProgress'
 
 // ImagePreview
 import placeholder from './assets/image-placeholder.svg'
@@ -10,7 +10,8 @@ import placeholder from './assets/image-placeholder.svg'
 const propTypes = {
   addImage: PropTypes.func.isRequired,
   image: PropTypes.object.isRequired,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
+  clearAllDerivatives: PropTypes.func.isRequired
 }
 
 export const ImagePreview = ({image}) => {
@@ -23,7 +24,11 @@ export const ImagePreview = ({image}) => {
   )
 }
 
-export const Uploader = ({addImage, image, loading}) => {
+ImagePreview.propTypes = {
+  image: PropTypes.object
+}
+
+export const Uploader = ({addImage, image, loading, clearAllDerivatives}) => {
   const renderContent = () => {
     if (loading) {
       return <div className={classes.content}><CircularProgress /></div>
@@ -43,6 +48,7 @@ export const Uploader = ({addImage, image, loading}) => {
   }
 
   const handleDrop = (files) => {
+    clearAllDerivatives()
     addImage(files[0])
   }
 

@@ -7,6 +7,7 @@ import JSZip from 'jszip'
 export const DERIVATIVE_START = 'DERIVATIVE_START'
 export const DERIVATIVE_STOP = 'DERIVATIVE_STOP'
 export const DERIVATIVE_ADD = 'DERIVATIVE_ADD'
+export const DERIVATIVE_CLEAR_ALL = 'DERIVATIVE_CLEAR_ALL'
 export const DERIVATIVE_DOWNLOAD_ALL = 'DERIVATIVE_DOWNLOAD_ALL'
 export const DERIVATIVE_ENABLE_DOWNLOAD = 'DERIVATIVE_ENABLE_DOWNLOAD'
 
@@ -27,13 +28,6 @@ export function actionStop () {
   }
 }
 
-export function addImage (image) {
-  return {
-    type: DERIVATIVE_ADD_IMAGE,
-    payload: image
-  }
-}
-
 export function add (derivative) {
   return {
     type: DERIVATIVE_ADD,
@@ -43,6 +37,12 @@ export function add (derivative) {
 
 export function process (derivative) {
 
+}
+
+export function clearAll () {
+  return {
+    type: DERIVATIVE_CLEAR_ALL
+  }
 }
 
 export function enableDownload () {
@@ -60,6 +60,7 @@ export function downloadAll () {
 export const actions = {
   add,
   process,
+  clearAll,
   enableDownload,
   downloadAll
 }
@@ -74,6 +75,9 @@ const ACTION_HANDLERS = {
     }
 
     return {...state, images: state.images.concat(action.payload)}
+  },
+  [DERIVATIVE_CLEAR_ALL]: (state, action) => {
+    return {...state, images: []}
   },
   [DERIVATIVE_ENABLE_DOWNLOAD]: (state, action) => ({...state, downloadable: true}),
   [DERIVATIVE_DOWNLOAD_ALL]: (state, action) => {

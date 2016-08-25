@@ -13,7 +13,7 @@ export const ImageProcessButton = (props) => {
     const imageName = imageNameArr.join()
 
     dimensionsList.forEach((dimensions, i) => {
-      resizeImage(image.preview, dimensions, (blob) => {
+      resizeImage(image.preview, dimensions, 'resizeToFill').then((blob) => {
         addDerivative({
           originalName: imageName,
           id: dimensions.id,

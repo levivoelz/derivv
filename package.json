@@ -113,6 +113,7 @@
     "material-ui": "^0.15.2",
     "node-sass": "^3.7.0",
     "normalize.css": "^4.1.1",
+    "pica": "^2.0.6",
     "postcss-loader": "^0.9.0",
     "react": "^15.0.0",
     "react-dom": "^15.0.0",
@@ -133,6 +134,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^6.0.0-beta.6",
+    "brfs": "^1.4.3",
     "chai": "^3.4.1",
     "chai-as-promised": "^5.1.0",
     "chai-enzyme": "^0.5.0",
@@ -142,6 +144,7 @@
     "eslint": "^3.0.1",
     "eslint-config-standard": "^5.1.0",
     "eslint-config-standard-react": "^3.0.0",
+    "eslint-loader": "^1.5.0",
     "eslint-plugin-babel": "^3.2.0",
     "eslint-plugin-promise": "^2.0.0",
     "eslint-plugin-react": "^5.0.0",
@@ -160,6 +163,7 @@
     "redbox-react": "^1.2.10",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
+    "transform-loader": "^0.2.3",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.6.0"
   }

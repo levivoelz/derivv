@@ -16,7 +16,7 @@ export const ConfigList = (props) => {
 
     return (
       <Dimensions
-        listNum={i+1}
+        listNum={i + 1}
         key={d.id}
         dimensions={d}
         lastItem={lastItem}

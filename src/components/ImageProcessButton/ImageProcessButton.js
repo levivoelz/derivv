@@ -18,6 +18,8 @@ export const ImageProcessButton = (props) => {
           originalName: imageName,
           id: dimensions.id,
           src: URL.createObjectURL(blob),
+          width: dimensions.width,
+          height: dimensions.height,
           blob,
           name: `${imageName}_${dimensions.width}_x_${dimensions.height}`,
           extension

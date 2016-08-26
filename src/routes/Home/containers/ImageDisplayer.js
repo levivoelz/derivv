@@ -10,7 +10,7 @@ const ImageDisplayer = (props) => {
       <h2>Review Images</h2>
       {props.images.length > 0 && <DerivativesDownloader />}
       <ImageList {...props} />
-      {props.images.length > 0 && <DerivativesDownloader />}
+      {props.images.length >= 3 && <DerivativesDownloader />}
     </div>
   )
 }

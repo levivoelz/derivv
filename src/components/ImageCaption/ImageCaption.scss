@@ -1,0 +1,22 @@
+.wrapper {
+  display: flex;
+  justify-content: flex-start;
+  max-width: 400px;
+  padding: 5px 0;
+  font-size: 0.8rem;
+}
+
+.item {
+  padding: 0 10px;
+  max-width: 250px;
+  min-width: 100px;
+}
+
+.value {
+  font-weight: 600;
+}
+
+.download {
+  border-right: 1px solid #575757;
+  padding-right: 10px;
+}

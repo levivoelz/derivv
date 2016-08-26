@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 
 import ImageList from 'components/ImageList'
@@ -8,10 +8,15 @@ const ImageDisplayer = (props) => {
   return (
     <div>
       <h2>Review Images</h2>
-      <DerivativesDownloader />
+      {props.images.length > 0 && <DerivativesDownloader />}
       <ImageList {...props} />
+      {props.images.length > 0 && <DerivativesDownloader />}
     </div>
   )
+}
+
+ImageDisplayer.propTypes = {
+  images: PropTypes.array.isRequired
 }
 
 const mapStateToProps = (state) => ({

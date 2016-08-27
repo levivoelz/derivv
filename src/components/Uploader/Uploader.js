@@ -25,7 +25,7 @@ export const ImagePreview = ({image}) => {
 }
 
 ImagePreview.propTypes = {
-  image: PropTypes.object
+  image: PropTypes.string
 }
 
 export const Uploader = ({addImage, image, loading, clearAllDerivatives}) => {

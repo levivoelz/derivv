@@ -1,5 +1,6 @@
 import { saveAs } from 'file-saver'
 import JSZip from 'jszip'
+import resizeImage from 'lib/resizeImage'
 
 // ------------------------------------
 // Constants
@@ -14,14 +15,14 @@ export const DERIVATIVE_ENABLE_DOWNLOAD = 'DERIVATIVE_ENABLE_DOWNLOAD'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function actionStart () {
+export function start () {
   return {
     type: DERIVATIVE_START,
     acting: true
   }
 }
 
-export function actionStop () {
+export function stop () {
   return {
     type: DERIVATIVE_STOP,
     acting: false
@@ -35,8 +36,45 @@ export function add (derivative) {
   }
 }
 
-export function process (derivative) {
+export function processAll (configs, image) {
+  return (dispatch) => {
+    dispatch(start())
+    const imageNameArr = image.name.split('.')
+    const extension = imageNameArr.splice(imageNameArr.length - 1, 1).join()
+    const imageName = imageNameArr.join()
 
+    configs.forEach((config) => {
+      config.dimensions = {width: config.width, height: config.height}
+      config.resizeType = 'resizeToFill'
+
+      process(config, image).then((blob) => {
+        const width = config.width
+        const height = config.height
+        const name = `${imageName}_${width}_x_${height}`
+        const newImage = {
+          originalName: imageName,
+          id: config.id,
+          src: URL.createObjectURL(blob),
+          width,
+          height,
+          blob,
+          name,
+          extension
+        }
+
+        dispatch(add(newImage))
+        config.id === configs[configs.length - 1].id && dispatch(stop())
+      })
+    })
+
+    return Promise.resolve()
+  }
+}
+
+export function process (config, image) {
+  return new Promise((resolve, reject) => {
+    resizeImage(image.preview, config.dimensions, config.resizeType).then(resolve)
+  })
 }
 
 export function clearAll () {
@@ -69,6 +107,12 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
+  [DERIVATIVE_START]: (state, action) => {
+    return {...state, acting: action.acting}
+  },
+  [DERIVATIVE_STOP]: (state, action) => {
+    return {...state, acting: action.acting}
+  },
   [DERIVATIVE_ADD]: (state, action) => {
     if (state.images.filter((d) => d.id === action.payload.id).length > 0) {
       return state

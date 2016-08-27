@@ -29,7 +29,7 @@ export const Dimensions = (props) => {
   const handleChange = (e) => {
     onChange({
       ...dimensions,
-      [e.target.name]: e.target.value
+      [e.target.name]: parseInt(e.target.value) || ''
     })
   }
 

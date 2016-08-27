@@ -39,32 +39,43 @@ export function add (derivative) {
 export function processAll (configs, image) {
   return (dispatch) => {
     dispatch(start())
+    dispatch(clearAll())
+
     const imageNameArr = image.name.split('.')
     const extension = imageNameArr.splice(imageNameArr.length - 1, 1).join()
     const imageName = imageNameArr.join()
 
     configs.forEach((config) => {
-      config.dimensions = {width: config.width, height: config.height}
-      config.resizeType = 'resizeToFill'
+      config.dimensions = {
+        width: config.width || undefined,
+        height: config.height || undefined
+      }
+      config.resizeType = config.width && config.height ? 'resizeToFill' : 'resizeProportionally'
 
-      process(config, image).then((blob) => {
-        const width = config.width
-        const height = config.height
-        const name = `${imageName}_${width}_x_${height}`
-        const newImage = {
-          originalName: imageName,
-          id: config.id,
-          src: URL.createObjectURL(blob),
-          width,
-          height,
-          blob,
-          name,
-          extension
-        }
+      if (config.dimensions.width || config.dimensions.height) {
+        process(config, image).then(({blob, dimensions}) => {
+          const src = URL.createObjectURL(blob)
+          const width = dimensions.width
+          const height = dimensions.height
+          const name = `${imageName}_${width}_x_${height}`
 
-        dispatch(add(newImage))
+          const newImage = {
+            originalName: imageName,
+            id: config.id,
+            src,
+            width,
+            height,
+            blob,
+            name,
+            extension
+          }
+
+          dispatch(add(newImage))
+          config.id === configs[configs.length - 1].id && dispatch(stop())
+        })
+      } else {
         config.id === configs[configs.length - 1].id && dispatch(stop())
-      })
+      }
     })
 
     return Promise.resolve()
@@ -148,6 +159,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   images: [],
+  acting: false,
   downloadable: false
 }
 

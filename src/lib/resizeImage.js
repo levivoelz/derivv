@@ -7,8 +7,8 @@ const resizeImage = (src, dimensions, type) => {
 
     image.onload = () => {
       if (image.width - dimensions.width > dimensions.width * 1.2) {
-        downsizeImage(image, dimensions.width * 1.1).then((image) => {
-          resizeByType(type, image, dimensions).then(resolve)
+        downsizeImage(image, dimensions.width * 1.1).then((canvas) => {
+          resizeByType(type, canvas, dimensions).then(resolve)
         })
       } else {
         resizeByType(type, image, dimensions).then(resolve)
@@ -21,6 +21,8 @@ const resizeByType = (type, image, dimensions) => {
   return new Promise((resolve, reject) => {
     if (type === 'resizeToFill') {
       resizeToFill(image, dimensions).then(resolve)
+    } else if (type === 'resizeProportionally') {
+      resizeProportionally(image, dimensions).then(resolve)
     } else {
       throw new Error('No resize type specified')
     }
@@ -61,6 +63,25 @@ const resizeToFill = (image, dimensions) => {
   })
 }
 
+const resizeProportionally = (image, dimensions) => {
+  return new Promise((resolve, reject) => {
+    const mask = {
+      width: null,
+      height: null
+    }
+
+    if (dimensions.width) {
+      mask.width = dimensions.width
+      mask.height = image.height * dimensions.width / image.width
+    } else {
+      mask.width = image.width * dimensions.height / image.height
+      mask.height = dimensions.height
+    }
+
+    createImage(image, {x: 0, y: 0}, mask, dimensions).then(resolve)
+  })
+}
+
 const downsizeImage = (image, width) => {
   return new Promise((resolve, reject) => {
     const canvas = createCanvas()
@@ -69,7 +90,7 @@ const downsizeImage = (image, width) => {
     canvas.height = image.height * width / image.width
 
     resizeCanvas(image, canvas, {}, (err) => {
-      err && console.error(err)
+      err && reject(err)
 
       resolve(canvas)
     })
@@ -84,8 +105,18 @@ const createImage = (image, offset, mask, dest) => {
     canvas.width = mask.width
     canvas.height = mask.height
 
-    context.drawImage(image, offset.x, offset.y, dest.width, dest.height)
-    canvas.toBlob(resolve)
+    const width = dest.width || mask.width
+    const height = dest.height || mask.height
+
+    context.drawImage(image, offset.x, offset.y, width, height)
+    canvas.toBlob((blob) => {
+      const results = {
+        blob,
+        dimensions: {width: mask.width, height: mask.height}
+      }
+
+      resolve(results)
+    })
   })
 }
 

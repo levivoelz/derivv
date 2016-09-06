@@ -112,7 +112,7 @@ const createImage = (image, offset, mask, dest) => {
     canvas.toBlob((blob) => {
       const results = {
         blob,
-        dimensions: {width: mask.width, height: mask.height}
+        dimensions: {width: Math.floor(mask.width), height: Math.floor(mask.height)}
       }
 
       resolve(results)

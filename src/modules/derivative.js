@@ -57,7 +57,7 @@ export function processAll (configs, image) {
           const src = URL.createObjectURL(blob)
           const width = dimensions.width
           const height = dimensions.height
-          const name = `${imageName}_${width}_x_${height}`
+          const name = `${imageName}-${width}_x_${height}`
 
           const newImage = {
             originalName: imageName,

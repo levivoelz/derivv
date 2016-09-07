@@ -44,12 +44,23 @@ const config = {
     colors : true
   },
   compiler_vendor : [
+    'blueimp-canvas-to-blob',
+    'blueimp-load-image',
     'history',
+    'jszip',
+    'material-ui',
+    'normalize.css',
+    'pica',
     'react',
+    'react-dom',
+    'react-dropzone',
     'react-redux',
     'react-router',
     'react-router-redux',
-    'redux'
+    'react-tap-event-plugin',
+    'redux',
+    'redux-localstorage',
+    'redux-thunk'
   ],
 
   // ----------------------------------
@@ -97,7 +108,7 @@ config.compiler_vendor = config.compiler_vendor
     if (pkg.dependencies[dep]) return true
 
     debug(
-      `Package "${dep}" was not found as an npm dependency in package.json; ` +
+      `Package '${dep}' was not found as an npm dependency in package.json; ` +
       `it won't be included in the webpack vendor bundle.
        Consider removing it from vendor_dependencies in ~/config/index.js`
     )
@@ -119,7 +130,7 @@ config.utils_paths = {
 // ========================================================
 // Environment Configuration
 // ========================================================
-debug(`Looking for environment overrides for NODE_ENV "${config.env}".`)
+debug(`Looking for environment overrides for NODE_ENV '${config.env}'.`)
 const environments = require('./environments').default
 const overrides = environments[config.env]
 if (overrides) {

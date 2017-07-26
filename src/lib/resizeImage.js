@@ -1,18 +1,10 @@
-import { resizeCanvas } from 'pica'
-
 const resizeImage = (src, dimensions, type) => {
   return new Promise((resolve, reject) => {
     const image = new Image()
     image.src = src
 
     image.onload = () => {
-      if (image.width - dimensions.width > dimensions.width * 1.2) {
-        downsizeImage(image, dimensions.width * 1.1).then((canvas) => {
-          resizeByType(type, canvas, dimensions).then(resolve)
-        })
-      } else {
-        resizeByType(type, image, dimensions).then(resolve)
-      }
+      resizeByType(type, image, dimensions).then(resolve, reject)
     }
   })
 }
@@ -20,9 +12,9 @@ const resizeImage = (src, dimensions, type) => {
 const resizeByType = (type, image, dimensions) => {
   return new Promise((resolve, reject) => {
     if (type === 'resizeToFill') {
-      resizeToFill(image, dimensions).then(resolve)
+      resizeToFill(image, dimensions).then(resolve, reject)
     } else if (type === 'resizeProportionally') {
-      resizeProportionally(image, dimensions).then(resolve)
+      resizeProportionally(image, dimensions).then(resolve, reject)
     } else {
       throw new Error('No resize type specified')
     }
@@ -59,7 +51,7 @@ const resizeToFill = (image, dimensions) => {
       y: getCenterOffset(mask.height, dest.height)
     }
 
-    createImage(image, offset, mask, dest).then(resolve)
+    createImage(image, offset, mask, dest).then(resolve, reject)
   })
 }
 
@@ -78,22 +70,7 @@ const resizeProportionally = (image, dimensions) => {
       mask.height = dimensions.height
     }
 
-    createImage(image, {x: 0, y: 0}, mask, dimensions).then(resolve)
-  })
-}
-
-const downsizeImage = (image, width) => {
-  return new Promise((resolve, reject) => {
-    const canvas = createCanvas()
-
-    canvas.width = width
-    canvas.height = image.height * width / image.width
-
-    resizeCanvas(image, canvas, {}, (err) => {
-      err && reject(err)
-
-      resolve(canvas)
-    })
+    createImage(image, {x: 0, y: 0}, mask, dimensions).then(resolve, reject)
   })
 }
 

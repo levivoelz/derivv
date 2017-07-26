@@ -10,7 +10,7 @@ export const DownloadButton = ({onClick, disabled}) => {
         primary
         style={{marginTop: 10}}
         label='Download All'
-        onTouchTap={onClick} />
+        onClick={onClick} />
     </div>
   )
 }

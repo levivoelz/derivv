@@ -1,3 +1,16 @@
 .wrapper {
-  max-width: 600px;
+  counter-reset: item;
+  list-style: none;
+
+  li {
+    counter-increment: item;
+  }
+
+  li:before {
+   margin-right: 10px;
+   content: counter(item)'.';
+   text-align: center;
+   display: inline-block;
+   font-size: 2em;
+ }
 }

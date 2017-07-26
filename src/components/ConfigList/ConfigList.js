@@ -1,8 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Table, TableBody } from 'material-ui/Table'
-
 import Dimensions from 'components/Dimensions'
-
 import classes from './ConfigList.scss'
 
 export const ConfigList = (props) => {
@@ -16,7 +13,6 @@ export const ConfigList = (props) => {
 
     return (
       <Dimensions
-        listNum={i + 1}
         key={d.id}
         dimensions={d}
         lastItem={lastItem}
@@ -30,11 +26,9 @@ export const ConfigList = (props) => {
   return (
     <div>
       <h2>Configure Sizes</h2>
-      <Table selectable={false} className={classes.wrapper}>
-        <TableBody>
-          {dimensionsList.map(renderDimensions)}
-        </TableBody>
-      </Table>
+      <ol className={classes.wrapper}>
+        {dimensionsList.map(renderDimensions)}
+      </ol>
     </div>
   )
 }

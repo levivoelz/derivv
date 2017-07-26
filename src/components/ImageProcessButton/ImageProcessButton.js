@@ -17,7 +17,7 @@ export const ImageProcessButton = (props) => {
       disabled={disabled}
       primary
       label='Create Derivatives'
-      onTouchTap={handleClick}
+      onClick={handleClick}
       fullWidth />
   )
 }

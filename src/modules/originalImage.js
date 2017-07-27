@@ -36,6 +36,8 @@ export function addImage (image) {
   return (dispatch) => {
     dispatch(actionStart())
 
+    console.log(image.preview)
+
     // fix image orientation issues from iOS and retain exif data
     loadImage.parseMetaData(
       image,

@@ -1,12 +1,44 @@
+import downscaleImage from './downscale'
+
 const resizeImage = (src, dimensions, type) => {
   return new Promise((resolve, reject) => {
-    const image = new Image()
+    let image = new Image()
     image.src = src
 
     image.onload = () => {
+      image = downscaleImageForResize(image, dimensions)
+
       resizeByType(type, image, dimensions).then(resolve, reject)
     }
   })
+}
+
+const downscaleImageForResize = (image, dimensions) => {
+  const largerOrig = findLarger(image)
+  const largerDest = findLarger(dimensions)
+  const smallerOrigDim = Math.min(image.width, image.height)
+  const largerDestDim = Math.max(dimensions.width, dimensions.height)
+
+  if (largerOrig === 'same' && largerDest === 'same') {
+    return downscaleImage(image, dimensions.width / image.width) // width or height (doesn't matter)
+  }
+
+  if (smallerOrigDim > largerDestDim) {
+    return downscaleImage(image, largerDestDim / smallerOrigDim)
+  }
+
+  return image
+}
+
+const findLarger = (dims) => {
+  switch (true) {
+    case dims.width > dims.height:
+      return 'width'
+    case dims.width < dims.height:
+      return 'height'
+    default:
+      return 'same'
+  }
 }
 
 const resizeByType = (type, image, dimensions) => {

@@ -9,7 +9,7 @@ class AppContainer extends Component {
     store: PropTypes.object.isRequired
   }
 
-  render () {
+  render() {
     const { history, routes, store } = this.props
 
     return (

@@ -11,28 +11,28 @@ export const ORIGINAL_IMAGE_ADD = 'ORIGINAL_IMAGE_ADD'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function actionStart () {
+export function actionStart() {
   return {
     type: ORIGINAL_IMAGE_START,
     acting: true
   }
 }
 
-export function actionStop () {
+export function actionStop() {
   return {
     type: ORIGINAL_IMAGE_STOP,
     acting: false
   }
 }
 
-export function add (image) {
+export function add(image) {
   return {
     type: ORIGINAL_IMAGE_ADD,
     payload: image
   }
 }
 
-export function addImage (image) {
+export function addImage(image) {
   return (dispatch) => {
     dispatch(actionStart())
 
@@ -96,7 +96,7 @@ const initialState = {
   acting: false
 }
 
-export default function fileReducer (state = initialState, action) {
+export default function fileReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

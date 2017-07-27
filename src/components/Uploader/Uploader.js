@@ -15,10 +15,8 @@ const propTypes = {
 }
 
 export const ImagePreview = ({image}) => {
-  if (!image) { return <img src={placeholder} /> }
-
   return (
-    <img src={image} className={classes.preview} />
+    <img src={image || placeholder} className={classes.preview} />
   )
 }
 
@@ -26,16 +24,16 @@ ImagePreview.propTypes = {
   image: PropTypes.string
 }
 
-export const Uploader = ({addImage, image, loading, clearAllDerivatives}) => {
+export const Uploader = (props) => {
+  const {addImage, image, loading, clearAllDerivatives} = props
   const renderContent = () => {
-    if (loading) {
-      return <div className={classes.content}><CircularProgress /></div>
-    }
-
     return (
       <div className={classes.content}>
         <div className={classes.left}>
-          <ImagePreview image={image.preview} />
+          {loading
+            ? <div className={classes.content}><CircularProgress /></div>
+            : <ImagePreview image={image.preview} />
+          }
         </div>
         <div className={classes.right}>
           <h2>Drop or</h2>

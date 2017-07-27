@@ -15,28 +15,28 @@ export const DERIVATIVE_ENABLE_DOWNLOAD = 'DERIVATIVE_ENABLE_DOWNLOAD'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function start () {
+export function start() {
   return {
     type: DERIVATIVE_START,
     acting: true
   }
 }
 
-export function stop () {
+export function stop() {
   return {
     type: DERIVATIVE_STOP,
     acting: false
   }
 }
 
-export function add (derivative) {
+export function add(derivative) {
   return {
     type: DERIVATIVE_ADD,
     payload: derivative
   }
 }
 
-export function processAll (configs, image) {
+export function processAll(configs, image) {
   return (dispatch) => {
     dispatch(start())
     dispatch(clearAll())
@@ -82,25 +82,25 @@ export function processAll (configs, image) {
   }
 }
 
-export function process (config, image) {
+export function process(config, image) {
   return new Promise((resolve, reject) => {
     resizeImage(image.preview, config.dimensions, config.resizeType).then(resolve)
   })
 }
 
-export function clearAll () {
+export function clearAll() {
   return {
     type: DERIVATIVE_CLEAR_ALL
   }
 }
 
-export function enableDownload () {
+export function enableDownload() {
   return {
     type: DERIVATIVE_ENABLE_DOWNLOAD
   }
 }
 
-export function downloadAll () {
+export function downloadAll() {
   return {
     type: DERIVATIVE_DOWNLOAD_ALL
   }
@@ -163,7 +163,7 @@ const initialState = {
   downloadable: false
 }
 
-export default function derivativeReducer (state = initialState, action) {
+export default function derivativeReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

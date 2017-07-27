@@ -8,21 +8,21 @@ export const CONFIGURATION_UPDATE_DIMENSIONS = 'CONFIGURATION_UPDATE_DIMENSIONS'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function addDimensions () {
+export function addDimensions() {
   return {
     type: CONFIGURATION_ADD_DIMENSIONS,
     payload: {width: '', height: ''}
   }
 }
 
-export function removeDimensions (dimensions) {
+export function removeDimensions(dimensions) {
   return {
     type: CONFIGURATION_REMOVE_DIMENSIONS,
     payload: dimensions
   }
 }
 
-export function updateDimensions (dimensions) {
+export function updateDimensions(dimensions) {
   return {
     type: CONFIGURATION_UPDATE_DIMENSIONS,
     payload: dimensions
@@ -75,7 +75,7 @@ const initialState = {
   }]
 }
 
-export default function configurationReducer (state = initialState, action) {
+export default function configurationReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

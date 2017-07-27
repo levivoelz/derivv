@@ -49,8 +49,6 @@ const config = {
     'history',
     'jszip',
     'material-ui',
-    'normalize.css',
-    'pica',
     'react',
     'react-dom',
     'react-dropzone',

@@ -32,7 +32,7 @@ export const Dimensions = (props) => {
 
   const renderAddButton = () => (
     <IconButton
-      onTouchTap={onAddClick}
+      onClick={onAddClick}
       style={buttonStyles}>
       <ContentAdd color='#57ac89' />
     </IconButton>
@@ -58,7 +58,7 @@ export const Dimensions = (props) => {
       <IconButton
         disabled={onlyItem}
         style={buttonStyles}
-        onTouchTap={handleRemoveClick}>
+        onClick={handleRemoveClick}>
         <ContentRemove color='#57ac89' />
       </IconButton>
       {lastItem ? renderAddButton() : ' '}

@@ -18,9 +18,7 @@ export const ImagePreview = ({image}) => {
   if (!image) { return <img src={placeholder} /> }
 
   return (
-    <div>
-      <img src={image} className={classes.preview} />
-    </div>
+    <img src={image} className={classes.preview} />
   )
 }
 
@@ -41,7 +39,11 @@ export const Uploader = ({addImage, image, loading, clearAllDerivatives}) => {
         </div>
         <div className={classes.right}>
           <h2>Drop or</h2>
-          <RaisedButton label='choose an image' fullWidth primary style={{marginTop: 10}} />
+          <RaisedButton
+            label='choose an image'
+            fullWidth
+            primary
+            style={{marginTop: 10}} />
         </div>
       </div>
     )

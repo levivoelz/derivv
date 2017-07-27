@@ -1,26 +1,23 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import CircularProgress from 'material-ui/CircularProgress'
 
 import ImageList from 'components/ImageList'
 import DerivativesDownloader from './DerivativesDownloader'
 
 const ImageDisplayer = (props) => {
-  const progressStyles = {
-    verticalAlign: 'top',
-    width: 30,
-    height: 30,
-    marginTop: -2
+  if (props.processing) {
+    return <div style={{height: 400}}><h2>Processing..</h2></div>
   }
 
-  const renderLoader = () => <CircularProgress size={0.4} style={progressStyles} />
+  if (props.images.length === 0) {
+    return <div style={{height: 400}}></div>
+  }
 
   return (
     <div>
-      <h2>Review Images {props.processing && renderLoader()}</h2>
-      {props.images.length > 0 && <DerivativesDownloader />}
+      <h2>Review & Download Images</h2>
       <ImageList {...props} />
-      {props.images.length >= 3 && <DerivativesDownloader />}
+      <DerivativesDownloader />
     </div>
   )
 }

@@ -14,20 +14,32 @@ const resizeImage = (src, dimensions, type) => {
 }
 
 const downscaleImageForResize = (image, dimensions) => {
-  const largerOrig = findLarger(image)
-  const largerDest = findLarger(dimensions)
-  const smallerOrigDim = Math.min(image.width, image.height)
-  const largerDestDim = Math.max(dimensions.width, dimensions.height)
+  try {
+    if (!dimensions.height) {
+      return downscaleImage(image, dimensions.width / image.width)
+    }
 
-  if (largerOrig === 'same' && largerDest === 'same') {
-    return downscaleImage(image, dimensions.width / image.width) // width or height (doesn't matter)
+    if (!dimensions.width) {
+      return downscaleImage(image, dimensions.height / image.height)
+    }
+
+    const largerOrig = findLarger(image)
+    const largerDest = findLarger(dimensions)
+    const smallerOrigDim = Math.min(image.width, image.height)
+    const largerDestDim = Math.max(dimensions.width, dimensions.height)
+
+    if (largerOrig === 'same' && largerDest === 'same') {
+      return downscaleImage(image, dimensions.width / image.width) // width or height (doesn't matter)
+    }
+
+    if (smallerOrigDim > largerDestDim) {
+      return downscaleImage(image, largerDestDim / smallerOrigDim)
+    }
+
+    return image
+  } catch (e) {
+    return image
   }
-
-  if (smallerOrigDim > largerDestDim) {
-    return downscaleImage(image, largerDestDim / smallerOrigDim)
-  }
-
-  return image
 }
 
 const findLarger = (dims) => {
@@ -43,12 +55,15 @@ const findLarger = (dims) => {
 
 const resizeByType = (type, image, dimensions) => {
   return new Promise((resolve, reject) => {
-    if (type === 'resizeToFill') {
-      resizeToFill(image, dimensions).then(resolve, reject)
-    } else if (type === 'resizeProportionally') {
-      resizeProportionally(image, dimensions).then(resolve, reject)
-    } else {
-      throw new Error('No resize type specified')
+    switch (type) {
+      case 'resizeToFill':
+        resizeToFill(image, dimensions).then(resolve, reject)
+        break
+      case 'resizeProportionally':
+        resizeProportionally(image, dimensions).then(resolve, reject)
+        break
+      default:
+        reject('No resize type specified')
     }
   })
 }
@@ -60,11 +75,7 @@ const resizeToFill = (image, dimensions) => {
       height: dimensions.height
     }
 
-    const dest = {
-      width: null,
-      height: null
-    }
-
+    const dest = {}
     const scale = {
       x: mask.width / image.width,
       y: mask.height / image.height
@@ -89,10 +100,7 @@ const resizeToFill = (image, dimensions) => {
 
 const resizeProportionally = (image, dimensions) => {
   return new Promise((resolve, reject) => {
-    const mask = {
-      width: null,
-      height: null
-    }
+    const mask = {}
 
     if (dimensions.width) {
       mask.width = dimensions.width
@@ -119,12 +127,15 @@ const createImage = (image, offset, mask, dest) => {
 
     context.drawImage(image, offset.x, offset.y, width, height)
     canvas.toBlob((blob) => {
-      const results = {
+      const imageObj = {
         blob,
-        dimensions: {width: Math.floor(mask.width), height: Math.floor(mask.height)}
+        dimensions: {
+          width: Math.floor(mask.width),
+          height: Math.floor(mask.height)
+        }
       }
 
-      resolve(results)
+      resolve(imageObj)
     })
   })
 }
@@ -133,7 +144,7 @@ const getCenterOffset = (targetDimension, originDimension) => (
   Math.floor(getCenter(targetDimension) - getCenter(originDimension))
 )
 
-const getCenter = (dimension) => dimension / 2
+const getCenter = dimension => dimension / 2
 
 const createCanvas = () => document.createElement('canvas')
 

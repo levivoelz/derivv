@@ -36,7 +36,11 @@ export function addImage (image) {
   return (dispatch) => {
     dispatch(actionStart())
 
-    console.log(image.preview)
+    if (image.size > 10000000) {
+      alert('Choose an image smaller than 10mb')
+      dispatch(actionStop())
+      return
+    }
 
     // fix image orientation issues from iOS and retain exif data
     loadImage.parseMetaData(

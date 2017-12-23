@@ -45,7 +45,9 @@ export function processAll(configs, image) {
     const extension = imageNameArr.splice(imageNameArr.length - 1, 1).join()
     const imageName = imageNameArr.join()
 
-    configs.forEach((config) => {
+    configs.forEach((c) => {
+      const config = Object.assign({}, c)
+
       config.dimensions = {
         width: config.width || undefined,
         height: config.height || undefined

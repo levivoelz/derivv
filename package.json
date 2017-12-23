@@ -25,6 +25,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && aws s3 sync dist s3://derivv.com --delete"
+    "deploy": "npm run build && aws s3 sync ./build s3://derivv.com --delete"
   }
 }

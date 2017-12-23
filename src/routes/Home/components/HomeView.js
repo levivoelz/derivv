@@ -6,12 +6,18 @@ import ImageProcessor from '../containers/ImageProcessor'
 import ImageDisplayer from '../containers/ImageDisplayer'
 import DerivativesDownloader from '../containers/DerivativesDownloader'
 import CoreLayout from 'layouts/CoreLayout'
+import ConfigExport from '../containers/ConfigExport'
+import ConfigImport from '../containers/ConfigImport'
 
 export const HomeView = () => (
   <CoreLayout>
     <Uploader />
 
-    {/* Configuration */}
+    <h3>Configure Sizes</h3>
+    <div style={{display: 'flex'}}>
+      <ConfigImport />
+      <ConfigExport />
+    </div>
     <Configuration />
 
     {/* Remove */}

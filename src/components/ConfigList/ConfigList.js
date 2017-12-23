@@ -24,12 +24,9 @@ export const ConfigList = (props) => {
   }
 
   return (
-    <div>
-      <h3>Configure Sizes</h3>
-      <ol className='configure--list'>
-        {dimensionsList.map(renderDimensions)}
-      </ol>
-    </div>
+    <ol className='configure--list'>
+      {dimensionsList.map(renderDimensions)}
+    </ol>
   )
 }
 

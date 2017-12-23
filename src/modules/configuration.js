@@ -1,38 +1,97 @@
+import Papa from 'papaparse'
+import { saveAs } from 'file-saver'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
 export const CONFIGURATION_ADD_DIMENSIONS = 'CONFIGURATION_ADD_DIMENSIONS'
 export const CONFIGURATION_REMOVE_DIMENSIONS = 'CONFIGURATION_REMOVE_DIMENSIONS'
 export const CONFIGURATION_UPDATE_DIMENSIONS = 'CONFIGURATION_UPDATE_DIMENSIONS'
+export const CONFIGURATION_ACTING_START = 'CONFIGURATION_ACTING_START'
+export const CONFIGURATION_ACTING_END = 'CONFIGURATION_ACTING_END'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function addDimensions() {
+function addDimensions(width='', height='') {
   return {
     type: CONFIGURATION_ADD_DIMENSIONS,
-    payload: {width: '', height: ''}
+    payload: {width, height}
   }
 }
 
-export function removeDimensions(dimensions) {
+function removeDimensions(dimensions) {
   return {
     type: CONFIGURATION_REMOVE_DIMENSIONS,
     payload: dimensions
   }
 }
 
-export function updateDimensions(dimensions) {
+function updateDimensions(dimensions) {
   return {
     type: CONFIGURATION_UPDATE_DIMENSIONS,
     payload: dimensions
   }
 }
 
+function start() {
+  return {
+    type: CONFIGURATION_ACTING_START
+  }
+}
+
+function end() {
+  return {
+    type: CONFIGURATION_ACTING_END
+  }
+}
+
+export function exportCSV() {
+  return (dispatch, getState) => {
+    dispatch(start())
+
+    const dimensions = [].concat(getState().configuration.dimensionsList)
+    dimensions.forEach(d => {delete d.id})
+    const csv = Papa.unparse(dimensions)
+    const file = new Blob([csv])
+
+    saveAs(file, `image-configurations.csv`)
+
+    setTimeout(() => {
+      dispatch(end())
+    }, 500)
+  }
+}
+
+export function importCSV(file) {
+  return (dispatch, getState) => {
+    dispatch(start())
+
+    Papa.parse(file, {
+      complete: (csv) => {
+        const widthIndex = csv.data[0].indexOf('width')
+        const heightIndex = csv.data[0].indexOf('height')
+
+        csv.data.forEach((row, i) => {
+          if (i !== 0) {
+            dispatch(addDimensions(row[widthIndex], row[heightIndex]))
+          }
+        })
+      }
+    })
+
+    setTimeout(() => {
+      dispatch(end())
+    }, 500)
+  }
+}
+
 export const actions = {
   addDimensions,
   removeDimensions,
-  updateDimensions
+  updateDimensions,
+  exportCSV,
+  importCSV
 }
 
 // ------------------------------------
@@ -41,10 +100,24 @@ export const actions = {
 const ACTION_HANDLERS = {
   [CONFIGURATION_ADD_DIMENSIONS]: (state, action) => {
     const list = state.dimensionsList
-    const nextId = list[list.length - 1].id + 1
-    action.payload.id = nextId
+    const lastItem = list[list.length - 1] || {id: 1}
 
-    return {dimensionsList: state.dimensionsList.concat(action.payload)}
+    if (lastItem.width === '' && lastItem.height === '') {
+      if (state.acting) { // if importing
+        return {
+          dimensionsList: list.map((d) => {
+            action.payload.id = lastItem.id + 1
+            return d.id === lastItem.id ? action.payload : d
+          })
+        }
+      } else {
+        return state
+      }
+    }
+
+    action.payload.id = lastItem.id + 1
+
+    return {dimensionsList: list.concat(action.payload)}
   },
   [CONFIGURATION_REMOVE_DIMENSIONS]: (state, action) => {
     if (state.dimensionsList.length > 1) {
@@ -61,6 +134,12 @@ const ACTION_HANDLERS = {
     ))
 
     return {dimensionsList}
+  },
+  [CONFIGURATION_ACTING_START]: (state, action) => {
+    return {...state, acting: true}
+  },
+  [CONFIGURATION_ACTING_END]: (state, action) => {
+    return {...state, acting: false}
   }
 }
 
@@ -72,7 +151,8 @@ const initialState = {
     id: 0,
     width: '',
     height: ''
-  }]
+  }],
+  acting: false
 }
 
 export default function configurationReducer(state = initialState, action) {

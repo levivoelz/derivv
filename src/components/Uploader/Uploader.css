@@ -1,0 +1,35 @@
+.uploader {
+  border: 2px dashed #fcd38f;
+  min-height: 300px;
+  background-color: #fcf3e7;
+  padding: 20px 20px 10px;
+  display: flex;
+  align-items: center;
+}
+
+.uploader--content {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.uploader--left, .uploader--right {
+  width: 50%;
+  padding: 5px;
+}
+
+.uploader--left img {
+  width: 100%;
+}
+
+.uploader--right {
+  text-align: center;
+}
+
+.uploader--right h2 {
+  color: #fcd38f
+}
+
+.uploader--preview {
+  width: 100%;
+}

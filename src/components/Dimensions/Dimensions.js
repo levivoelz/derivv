@@ -1,17 +1,10 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
-import ContentAdd from 'material-ui/svg-icons/content/add-circle-outline'
-import ContentRemove from 'material-ui/svg-icons/content/remove-circle-outline'
+import AddIcon from 'material-ui-icons/Add'
+import RemoveIcon from 'material-ui-icons/Remove'
 
-const propTypes = {
-  dimensions: PropTypes.object.isRequired,
-  onAddClick: PropTypes.func.isRequired,
-  onRemoveClick: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  lastItem: PropTypes.bool.isRequired,
-  onlyItem: PropTypes.bool.isRequired
-}
+import './Dimensions.css'
 
 export const Dimensions = (props) => {
   const {
@@ -26,31 +19,32 @@ export const Dimensions = (props) => {
   const handleChange = (e) => {
     onChange({
       ...dimensions,
-      [e.target.name]: parseInt(e.target.value) || ''
+      [e.target.name]: parseInt(e.target.value, 10) || ''
     })
   }
 
   const renderAddButton = () => (
     <IconButton
       onClick={onAddClick}
+      color='primary'
       style={buttonStyles}>
-      <ContentAdd color='#57ac89' />
+      <AddIcon />
     </IconButton>
   )
 
   const buttonStyles = {padding: 0, width: 30, height: 30}
 
   return (
-    <li>
+    <li className='dimensions'>
       <TextField
         style={{marginRight: 5}}
-        floatingLabelText='width in px'
+        label='width in px'
         name='width'
         onChange={handleChange}
         value={dimensions.width}
         type='number' />
       <TextField
-        floatingLabelText='height in px'
+        label='height in px'
         name='height'
         onChange={handleChange}
         value={dimensions.height}
@@ -58,14 +52,13 @@ export const Dimensions = (props) => {
       <IconButton
         disabled={onlyItem}
         style={buttonStyles}
+        color='primary'
         onClick={handleRemoveClick}>
-        <ContentRemove color='#57ac89' />
+        <RemoveIcon />
       </IconButton>
       {lastItem ? renderAddButton() : ' '}
     </li>
   )
 }
-
-Dimensions.propTypes = propTypes
 
 export default Dimensions

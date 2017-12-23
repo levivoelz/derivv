@@ -1,0 +1,21 @@
+.image-caption {
+  display: flex;
+  justify-content: flex-start;
+  max-width: 600px;
+  padding: 5px 0;
+  font-size: 0.8rem;
+}
+
+.image-caption--item {
+  padding: 0 10px;
+  min-width: 100px;
+}
+
+.image-caption--value {
+  font-weight: 600;
+}
+
+.image-caption--button {
+  border-right: 1px solid #575757;
+  padding-right: 10px;
+}

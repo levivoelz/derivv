@@ -1,23 +1,20 @@
-import React, { PropTypes } from 'react'
-import RaisedButton from 'material-ui/RaisedButton'
-import classes from './DownloadButton.scss'
+import React from 'react'
+import Button from 'material-ui/Button'
 
 export const DownloadButton = ({onClick, disabled}) => {
-  return (
-    <div className={classes['DownloadButton']}>
-      <RaisedButton
-        disabled={disabled}
-        primary
-        style={{marginTop: 10}}
-        label='Download All'
-        onClick={onClick} />
-    </div>
-  )
-}
+  if (disabled) {
+    return null
+  }
 
-DownloadButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  disabled: PropTypes.bool
+  return (
+    <Button
+      color='primary'
+      raised
+      style={{marginTop: 10}}
+      onClick={onClick}>
+        Download All
+      </Button>
+  )
 }
 
 export default DownloadButton

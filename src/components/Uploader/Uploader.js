@@ -1,47 +1,38 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import Dropzone from 'react-dropzone'
-import classes from './Uploader.scss'
-import RaisedButton from 'material-ui/RaisedButton'
-import CircularProgress from 'material-ui/CircularProgress'
+import Button from 'material-ui/Button'
+import { CircularProgress } from 'material-ui/Progress'
+
+import './Uploader.css'
 
 // ImagePreview
 import placeholder from './assets/image-placeholder.svg'
 
-const propTypes = {
-  addImage: PropTypes.func.isRequired,
-  image: PropTypes.object.isRequired,
-  loading: PropTypes.bool.isRequired,
-  clearAllDerivatives: PropTypes.func.isRequired
-}
-
 export const ImagePreview = ({image}) => {
   return (
-    <img src={image || placeholder} className={classes.preview} />
+    <img src={image || placeholder} alt='preview' className='uploader--preview' />
   )
-}
-
-ImagePreview.propTypes = {
-  image: PropTypes.string
 }
 
 export const Uploader = (props) => {
   const {addImage, image, loading, clearAllDerivatives} = props
   const renderContent = () => {
     return (
-      <div className={classes.content}>
-        <div className={classes.left}>
+      <div className='uploader--content'>
+        <div className='uploader--left'>
           {loading
-            ? <div className={classes.content}><CircularProgress /></div>
+            ? <div className='uploader--content'><CircularProgress /></div>
             : <ImagePreview image={image.preview} />
           }
         </div>
-        <div className={classes.right}>
+        <div className='uploader--right'>
           <h2>Drop or</h2>
-          <RaisedButton
-            label='choose an image'
-            fullWidth
-            primary
-            style={{marginTop: 10}} />
+          <Button
+            raised
+            color='primary'
+            style={{width: '100%', marginTop: 10}}>
+            choose an image
+          </Button>
         </div>
       </div>
     )
@@ -62,7 +53,7 @@ export const Uploader = (props) => {
   }
 
   return (
-    <div className={classes.wrapper}>
+    <div className='uploader'>
       <Dropzone
         onDrop={handleDrop}
         activeStyle={activeStyle}
@@ -73,7 +64,5 @@ export const Uploader = (props) => {
     </div>
   )
 }
-
-Uploader.propTypes = propTypes
 
 export default Uploader

@@ -1,6 +1,6 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import Dimensions from 'components/Dimensions'
-import classes from './ConfigList.scss'
+import './ConfigList.css'
 
 export const ConfigList = (props) => {
   const {dimensionsList, addDimensions, removeDimensions, updateDimensions} = props
@@ -25,19 +25,12 @@ export const ConfigList = (props) => {
 
   return (
     <div>
-      <h2>Configure Sizes</h2>
-      <ol className={classes.wrapper}>
+      <h3>Configure Sizes</h3>
+      <ol className='configure--list'>
         {dimensionsList.map(renderDimensions)}
       </ol>
     </div>
   )
-}
-
-ConfigList.propTypes = {
-  dimensionsList: PropTypes.array.isRequired,
-  addDimensions: PropTypes.func.isRequired,
-  removeDimensions: PropTypes.func.isRequired,
-  updateDimensions: PropTypes.func.isRequired
 }
 
 export default ConfigList

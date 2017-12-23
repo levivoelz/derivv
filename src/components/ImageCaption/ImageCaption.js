@@ -1,47 +1,47 @@
-import React, { PropTypes } from 'react'
-import classes from './ImageCaption.scss'
+import React from 'react'
 import IconButton from 'material-ui/IconButton'
-import FileDownload from 'material-ui/svg-icons/file/file-download'
+import FileDownloadIcon from 'material-ui-icons/FileDownload'
+
+import './ImageCaption.css'
 
 export const ImageCaption = ({image, showDownload}) => {
   let downloadButton
 
   if (showDownload) {
     downloadButton = (
-      <div className={classes.download}>
-        <IconButton href={image.src} download style={{width: 30, height: 30, padding: 7}}>
-          <FileDownload color='#57ac89' />
+      <div className='image-caption--button'>
+        <IconButton
+          href={image.src}
+          download
+          color='primary'
+          style={{width: 30, height: 30, padding: 7}}>
+          <FileDownloadIcon />
         </IconButton>
       </div>
     )
   }
 
   return (
-    <div className={classes.wrapper}>
+    <div className='image-caption'>
       {downloadButton}
       <div>
-        <div className={classes.item}>
-          Name: <span className={classes.value}>{image.name}</span>
+        <div className='image-caption--item'>
+          Name: <span className='image-caption--value'>{image.name}</span>
         </div>
-        <div className={classes.item}>
-          Type: <span className={classes.value}>{image.extension}</span>
+        <div className='image-caption--item'>
+          Type: <span className='image-caption--value'>{image.extension}</span>
         </div>
       </div>
       <div>
-        <div className={classes.item}>
-          Width: <span className={classes.value}>{image.width}px</span>
+        <div className='image-caption--item'>
+          Width: <span className='image-caption--value'>{image.width}px</span>
         </div>
-        <div className={classes.item}>
-          Height: <span className={classes.value}>{image.height}px</span>
+        <div className='image-caption--item'>
+          Height: <span className='image-caption--value'>{image.height}px</span>
         </div>
       </div>
     </div>
   )
-}
-
-ImageCaption.propTypes = {
-  image: PropTypes.object.isRequired,
-  showDownload: PropTypes.bool
 }
 
 export default ImageCaption

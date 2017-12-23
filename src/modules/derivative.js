@@ -84,7 +84,10 @@ export function processAll(configs, image) {
 
 export function process(config, image) {
   return new Promise((resolve, reject) => {
-    resizeImage(image.preview, config.dimensions, config.resizeType).then(resolve)
+    // move to end of stack for "Processing..." animation to render
+    setTimeout(() => {
+      resizeImage(image.preview, config.dimensions, config.resizeType).then(resolve)
+    }, 0)
   })
 }
 

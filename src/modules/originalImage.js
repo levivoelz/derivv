@@ -49,7 +49,7 @@ export function addImage(image) {
         let orientation = 0
         if (typeof (data.exif) !== 'undefined') {
           image.exif = data.exif
-          orientation = parseInt(data.exif.get('Orientation'))
+          orientation = parseInt(data.exif.get('Orientation'), 10)
         }
 
         loadImage(

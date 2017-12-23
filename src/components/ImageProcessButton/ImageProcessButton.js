@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react'
-import RaisedButton from 'material-ui/RaisedButton'
+import React from 'react'
+import Button from 'material-ui/Button'
 import 'blueimp-canvas-to-blob'
 
 export const ImageProcessButton = (props) => {
@@ -13,20 +13,15 @@ export const ImageProcessButton = (props) => {
   }
 
   return (
-    <RaisedButton
+    <Button
       disabled={disabled}
-      primary
-      label='Create Derivatives'
+      color='primary'
+      raised
       onClick={handleClick}
-      fullWidth />
+      style={{width: '100%'}}>
+        Create Derivative Images
+      </Button>
   )
-}
-
-ImageProcessButton.propTypes = {
-  image: PropTypes.object.isRequired,
-  dimensionsList: PropTypes.array.isRequired,
-  processImages: PropTypes.func.isRequired,
-  enableDownload: PropTypes.func.isRequired
 }
 
 export default ImageProcessButton

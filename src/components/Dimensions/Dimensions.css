@@ -1,0 +1,12 @@
+.dimensions {
+  counter-increment: item;
+  margin-bottom: 10px
+}
+
+.dimensions:before {
+ margin-right: 10px;
+ content: counter(item)'.';
+ text-align: center;
+ display: inline-block;
+ font-size: 1.6em;
+}

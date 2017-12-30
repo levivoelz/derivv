@@ -23,9 +23,13 @@ export const Dimensions = (props) => {
     })
   }
 
+  const handleAddClick = () => {
+    onAddClick()
+  }
+
   const renderAddButton = () => (
     <IconButton
-      onClick={onAddClick}
+      onClick={handleAddClick}
       color='primary'
       style={buttonStyles}>
       <AddIcon />

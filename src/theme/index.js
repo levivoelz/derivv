@@ -16,6 +16,7 @@ const green = {
     A400: '#89c5ac',
     A700: '#56ac88',
     'contrastDefaultColor': 'light',
+    contrastText: 'white'
 }
 
 const theme = createMuiTheme({
@@ -23,15 +24,5 @@ const theme = createMuiTheme({
     primary: green
   }
 })
-
-const originalGetContrastText = theme.palette.getContrastText
-
-theme.palette.getContrastText = color => {
-  if (color === theme.palette.primary[500]) {
-    return theme.palette.common.white
-  }
-
-  return originalGetContrastText(color)
-}
 
 export default theme

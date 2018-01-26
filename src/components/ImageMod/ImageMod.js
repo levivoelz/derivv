@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import Dialog, { DialogTitle, DialogContent, DialogContentText } from 'material-ui/Dialog'
+import Dialog, { DialogTitle, DialogContent, DialogContentText, DialogActions } from 'material-ui/Dialog'
 import IconButton from 'material-ui/IconButton'
+import Button from 'material-ui/Button'
 import CropIcon from 'material-ui-icons/Crop'
 import ImageEditor from 'react-avatar-editor'
 
@@ -13,14 +14,21 @@ class ImageMod extends Component {
     this.setState({open: true})
   }
 
-  onClickSave = () => {
+  closeDialog = () => {
+    this.setState({ open: false })
+  }
+
+  updateImage = () => {
     if (this.editor) {
       // This returns a HTMLCanvasElement, it can be made into a data URL or a blob,
       // drawn on another canvas, or added to the DOM.
       const canvas = this.editor.getImage()
+      // console.log(canvas)
 
       // If you want the image resized to the canvas size (also a HTMLCanvasElement)
       const canvasScaled = this.editor.getImageScaledToCanvas()
+      // console.log(canvasScaled)
+      this.props.updateDerivative(image.id, canvasScaled.toDataURL())
     }
   }
 
@@ -44,8 +52,9 @@ class ImageMod extends Component {
         </IconButton>
         <Dialog
           open={this.state.open}
+          onClose={this.closeDialog}
           maxWidth={false}>
-          <DialogTitle>Make some adjustments</DialogTitle>
+          <DialogTitle>Adjust crop</DialogTitle>
           <DialogContent>
             <ImageEditor
               ref={this.setEditorRef}
@@ -59,6 +68,14 @@ class ImageMod extends Component {
               You can do it!
             </DialogContentText>
           </DialogContent>
+          <DialogActions>
+            <Button onClick={this.closeDialog} color='primary'>
+              Cancel
+            </Button>
+            <Button onClick={this.updateImage} color='primary'>
+              Update
+            </Button>
+          </DialogActions>
         </Dialog>
       </div>
     )

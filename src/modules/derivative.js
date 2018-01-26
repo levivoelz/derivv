@@ -36,6 +36,15 @@ export function add(derivative) {
   }
 }
 
+export function update(id, derivative) {
+  return {
+    type: DERIVATIVE_UPDATE,
+    payload: {
+      id, payload
+    }
+  }
+}
+
 export function processAll(configs, image) {
   return (dispatch) => {
     dispatch(start())
@@ -133,6 +142,15 @@ const ACTION_HANDLERS = {
     if (state.images.filter((d) => d.id === action.payload.id).length > 0) {
       return state
     }
+
+    return {...state, images: state.images.concat(action.payload)}
+  },
+  [DERIVATIVE_UPDATE]: (state, action) => {
+    const images = state.images.map((d) => {
+      if (d.id === action.payload.id) {
+        return action.payload
+      }
+    }))
 
     return {...state, images: state.images.concat(action.payload)}
   },

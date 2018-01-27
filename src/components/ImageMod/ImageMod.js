@@ -30,13 +30,6 @@ class ImageMod extends Component {
 
   setEditorRef = (editor) => this.editor = editor
 
-  editorBorder = () => {
-    const img = this.props.image
-    return Math.max(img.width, img.height) === img.height
-      ? [50, 0]
-      : [0, 50]
-  }
-
   render() {
     return (
       <div>
@@ -58,7 +51,7 @@ class ImageMod extends Component {
               width={this.props.image.width}
               height={this.props.image.height}
               disableDrop
-              border={this.editorBorder()}
+              border={[25, 25]}
               scale={1} />
             <DialogContentText>
               You can do it!

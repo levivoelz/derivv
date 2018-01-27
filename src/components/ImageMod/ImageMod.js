@@ -36,9 +36,7 @@ class ImageMod extends Component {
   buttonDisabled = () => {
     const {width, height} = this.props.image
 
-    return width === height ||
-      (width && !height) ||
-      (!width && height)
+    return (width && !height) || (!width && height)
   }
 
   render() {

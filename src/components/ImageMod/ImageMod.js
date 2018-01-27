@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Dialog, { DialogTitle, DialogContent, DialogContentText, DialogActions } from 'material-ui/Dialog'
+import Dialog, { DialogTitle, DialogContent, DialogActions } from 'material-ui/Dialog'
 import IconButton from 'material-ui/IconButton'
 import Button from 'material-ui/Button'
 import CropIcon from 'material-ui-icons/Crop'

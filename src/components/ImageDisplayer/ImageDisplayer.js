@@ -13,7 +13,7 @@ const ImageDisplayer = (props) => {
   }
 
   if (props.images.length === 0) {
-    return <div style={{height: 400}}></div>
+    return null
   }
 
   return (

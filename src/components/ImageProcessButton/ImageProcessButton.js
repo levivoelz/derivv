@@ -7,7 +7,10 @@ export const ImageProcessButton = (props) => {
   const disabled = Object.keys(image).length === 0
 
   const handleClick = () => {
-    processAll(image, dimensionsList)
+    const configs = dimensionsList.filter(d => d.height || d.width)
+    if (configs.length > 0) {
+      processAll(image, configs)
+    }
   }
 
   return (

@@ -3,7 +3,7 @@ import ImageList from 'components/ImageList'
 import { LinearProgress } from 'material-ui/Progress'
 
 const ImageDisplayer = (props) => {
-  if (props.processing) {
+  if (props.processing === true) {
     return (
       <div style={{marginTop: 20, paddngTop: 5}}>
         <h4>Processing...</h4>

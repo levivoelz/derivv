@@ -19,6 +19,7 @@ class ImageMod extends Component {
   }
 
   updateImage = () => {
+    this.closeDialog()
     this.props.processOne(this.props.originalImage, {
       ...this.editor.getCroppingRect(),
       width: this.props.image.width,

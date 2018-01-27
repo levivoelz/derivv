@@ -17,10 +17,10 @@ export const DERIVATIVE_DISABLE_DOWNLOAD = 'DERIVATIVE_DISABLE_DOWNLOAD'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function start() {
+export function start(id=true) {
   return {
     type: DERIVATIVE_START,
-    acting: true
+    acting: id
   }
 }
 
@@ -90,7 +90,7 @@ export function processAll(image, configs) {
 
 export function processOne(image, config) {
   return (dispatch) => {
-    dispatch(start())
+    dispatch(start(config.id))
     dispatch(disableDownload())
     _resize(image, config)
       .then((derivativeImage) => {

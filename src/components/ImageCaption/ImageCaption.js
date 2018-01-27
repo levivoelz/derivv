@@ -5,9 +5,10 @@ import ImageMod from 'components/ImageMod'
 
 import './ImageCaption.css'
 
-const truncate = (str) => {
-  if (str.length > 30) {
-    return str.slice(0, 30) + '...'
+const truncate = (str, width) => {
+  const thresh = Math.max(Math.floor(width / 10), 26)
+  if (str.length > thresh) {
+    return str.slice(0, thresh) + '...'
   }
 
   return str
@@ -29,13 +30,17 @@ export const ImageCaption = ({image, processOne, originalImage}) => {
           originalImage={originalImage}
           image={image} />
       </div>
-      <div>
+      <div className='image-caption--text'>
         <div className='image-caption--item'>
-          Name: <span title={image.name} className='image-caption--value'>{truncate(image.name)}</span>
+          Name: <span title={image.name} className='image-caption--value'>
+            {truncate(image.name, image.width)}
+          </span>
         </div>
         <div className='image-caption--item'>
           Type: <span className='image-caption--value'>{image.extension}</span>
         </div>
+      </div>
+      <div>
         <div className='image-caption--item'>
           Width: <span className='image-caption--value'>{image.width}px</span>
         </div>

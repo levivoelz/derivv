@@ -184,7 +184,7 @@ const ACTION_HANDLERS = {
     return {...state, images: []}
   },
   [DERIVATIVE_ENABLE_DOWNLOAD]: (state, action) => ({...state, downloadable: true}),
-  [DERIVATIVE_ENABLE_DOWNLOAD]: (state, action) => ({...state, downloadable: false}),
+  [DERIVATIVE_DISABLE_DOWNLOAD]: (state, action) => ({...state, downloadable: false}),
   [DERIVATIVE_DOWNLOAD_ALL]: (state, action) => {
     const zip = new JSZip()
     const folderName = `${state.images[0].originalName}-derivatives`

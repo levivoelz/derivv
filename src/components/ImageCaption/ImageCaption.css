@@ -1,9 +1,10 @@
 .image-caption {
   display: flex;
-  justify-content: flex-start;
-  max-width: 600px;
-  padding: 5px 0;
+  justify-content: center;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
   font-size: 0.8rem;
+  margin-top: 10px;
 }
 
 .image-caption--item {
@@ -21,4 +22,8 @@
   display: flex;
 
   padding-right: 10px;
+}
+
+.image-caption--text {
+
 }

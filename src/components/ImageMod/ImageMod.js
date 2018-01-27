@@ -20,13 +20,15 @@ class ImageMod extends Component {
 
   updateImage = () => {
     this.closeDialog()
-    this.props.processOne(this.props.originalImage, {
-      ...this.editor.getCroppingRect(),
-      width: this.props.image.width,
-      height: this.props.image.height,
-      id: this.props.image.id,
-      resizeType: 'resizeByCoordinates'
-    })
+    setTimeout(() => {
+      this.props.processOne(this.props.originalImage, {
+        ...this.editor.getCroppingRect(),
+        width: this.props.image.width,
+        height: this.props.image.height,
+        id: this.props.image.id,
+        resizeType: 'resizeByCoordinates'
+      })
+    }, 10)
   }
 
   setEditorRef = (editor) => this.editor = editor

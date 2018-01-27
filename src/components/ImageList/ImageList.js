@@ -8,9 +8,14 @@ export const Image = ({image, originalImage, processOne, processing}) => {
   if (processing === image.id) {
     return (
       <div className='images--image'>
-        <h4>Reprocessing...</h4>
-        <LinearProgress />
-        <div style={{height: image.height + 40, width: image.width}}></div>
+        <div style={{height: image.height, width: image.width}}>
+          <h4>Reprocessing...</h4>
+          <LinearProgress />
+        </div>
+        <ImageCaption
+          processOne={processOne}
+          originalImage={originalImage}
+          image={image} />
       </div>
     )
   }
@@ -18,7 +23,7 @@ export const Image = ({image, originalImage, processOne, processing}) => {
   return (
     <div className='images--image'>
       <img
-        alt='derivative'
+        alt={image.name}
         width={image.width}
         height={image.height}
         src={image.src} />

@@ -2,21 +2,26 @@ import React from 'react'
 import ImageCaption from 'components/ImageCaption'
 import { LinearProgress } from 'material-ui/Progress'
 
+import './ImageList.css'
+
 export const Image = ({image, originalImage, processOne, processing}) => {
   if (processing === image.id) {
     return (
-      <div style={{padding: '20px 0', height: image.height + 40}}>
-        <hr />
+      <div className='images--image'>
         <h4>Reprocessing...</h4>
         <LinearProgress />
+        <div style={{height: image.height + 40, width: image.width}}></div>
       </div>
     )
   }
 
   return (
-    <div style={{padding: '20px 0'}}>
-      <hr />
-      <img alt='derivative' src={image.src} />
+    <div className='images--image'>
+      <img
+        alt='derivative'
+        width={image.width}
+        height={image.height}
+        src={image.src} />
       <ImageCaption
         processOne={processOne}
         originalImage={originalImage}
@@ -26,7 +31,7 @@ export const Image = ({image, originalImage, processOne, processing}) => {
 }
 
 export const ImageList = ({images, originalImage, processOne, processing}) => (
-  <div>
+  <div className='images--list'>
     {images.map((image, i) => (
       <Image
         key={i}

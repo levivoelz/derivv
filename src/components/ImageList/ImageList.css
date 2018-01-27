@@ -1,0 +1,14 @@
+.images--list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.images--image {
+  display: flex;
+  border: 1px solid #eee;
+  border-radius: 2px;
+  padding: 20px;
+  margin: 5px;
+  flex-direction: column;
+  align-items: center;
+}

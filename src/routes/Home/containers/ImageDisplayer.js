@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import ImageDisplayer from 'components/ImageDisplayer'
+import { processOne } from 'modules/derivative'
 
 const mapStateToProps = (state) => ({
   images: state.derivative.images,
@@ -7,4 +8,8 @@ const mapStateToProps = (state) => ({
   originalImage: state.originalImage.file
 })
 
-export default connect(mapStateToProps, null)(ImageDisplayer)
+const mapActionCreators = {
+  processOne
+}
+
+export default connect(mapStateToProps, mapActionCreators)(ImageDisplayer)

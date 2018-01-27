@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { processAll, enableDownload } from 'modules/derivative'
+import { processAll } from 'modules/derivative'
 
 import ImageProcessButton from 'components/ImageProcessButton'
 
@@ -10,8 +10,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapActionCreators = {
-  processImages: processAll,
-  enableDownload
+  processAll
 }
 
 export default connect(mapStateToProps, mapActionCreators)(ImageProcessButton)

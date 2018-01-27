@@ -19,17 +19,13 @@ class ImageMod extends Component {
   }
 
   updateImage = () => {
-    if (this.editor) {
-      // This returns a HTMLCanvasElement, it can be made into a data URL or a blob,
-      // drawn on another canvas, or added to the DOM.
-      const canvas = this.editor.getImage()
-      // console.log(canvas)
-
-      // If you want the image resized to the canvas size (also a HTMLCanvasElement)
-      const canvasScaled = this.editor.getImageScaledToCanvas()
-      // console.log(canvasScaled)
-      this.props.updateDerivative(image.id, canvasScaled.toDataURL())
-    }
+    this.props.processOne(this.props.originalImage, {
+      ...this.editor.getCroppingRect(),
+      width: this.props.image.width,
+      height: this.props.image.height,
+      id: this.props.image.id,
+      resizeType: 'resizeByCoordinates'
+    })
   }
 
   setEditorRef = (editor) => this.editor = editor

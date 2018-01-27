@@ -1,35 +1,35 @@
 import downscaleImage from './downscale'
 
-const resizeImage = (src, dimensions, type) => {
+const resizeImage = (src, config) => {
   return new Promise((resolve, reject) => {
     let image = new Image()
     image.src = src
 
     image.onload = () => {
-      image = downscaleImageForResize(image, dimensions)
+      image = downscaleImageForResize(image, config)
 
-      resizeByType(type, image, dimensions).then(resolve, reject)
+      resizeByType(image, config).then(resolve, reject)
     }
   })
 }
 
-const downscaleImageForResize = (image, dimensions) => {
+const downscaleImageForResize = (image, config) => {
   try {
-    if (!dimensions.height) {
-      return downscaleImage(image, dimensions.width / image.width)
+    if (!config.height) {
+      return downscaleImage(image, config.width / image.width)
     }
 
-    if (!dimensions.width) {
-      return downscaleImage(image, dimensions.height / image.height)
+    if (!config.width) {
+      return downscaleImage(image, config.height / image.height)
     }
 
     const largerOrig = findLarger(image)
-    const largerDest = findLarger(dimensions)
+    const largerDest = findLarger(config)
     const smallerOrigDim = Math.min(image.width, image.height)
-    const largerDestDim = Math.max(dimensions.width, dimensions.height)
+    const largerDestDim = Math.max(config.width, config.height)
 
     if (largerOrig === 'same' && largerDest === 'same') {
-      return downscaleImage(image, dimensions.width / image.width) // width or height (doesn't matter)
+      return downscaleImage(image, config.width / image.width) // width or height (doesn't matter)
     }
 
     if (smallerOrigDim > largerDestDim) {
@@ -53,91 +53,95 @@ const findLarger = (dims) => {
   }
 }
 
-const resizeByType = (type, image, dimensions) => {
-  return new Promise((resolve, reject) => {
-    switch (type) {
-      case 'resizeToFill':
-        resizeToFill(image, dimensions).then(resolve, reject)
-        break
-      case 'resizeProportionally':
-        resizeProportionally(image, dimensions).then(resolve, reject)
-        break
-      default:
-        reject('No resize type specified')
-    }
-  })
+const resizeByType = (image, config) => {
+  switch (config.resizeType) {
+    case 'resizeToFill':
+      return resizeToFill(image, config)
+    case 'resizeProportionally':
+      return resizeProportionally(image, config)
+    case 'resizeByCoordinates':
+      return resizeByCoordinates(image, config)
+    default:
+      return new Error('No resize type specified')
+  }
 }
 
-const resizeToFill = (image, dimensions) => {
-  return new Promise((resolve, reject) => {
-    const mask = {
-      width: dimensions.width,
-      height: dimensions.height
-    }
+const resizeToFill = (image, config) => {
+  const dest = setDestinationSize(image, config)
 
-    const dest = {}
-    const scale = {
-      x: mask.width / image.width,
-      y: mask.height / image.height
-    }
+  const offset = {
+    x: getCenterOffset(config.width, dest.width),
+    y: getCenterOffset(config.height, dest.height)
+  }
 
-    if (scale.x >= scale.y) {
-      dest.width = Math.ceil(scale.x * image.width)
-      dest.height = Math.ceil(scale.x * image.height)
-    } else {
-      dest.width = Math.ceil(scale.y * image.width)
-      dest.height = Math.ceil(scale.y * image.height)
-    }
-
-    const offset = {
-      x: getCenterOffset(mask.width, dest.width),
-      y: getCenterOffset(mask.height, dest.height)
-    }
-
-    createImage(image, offset, mask, dest).then(resolve, reject)
-  })
+  return createImage(image, offset, config, dest)
 }
 
-const resizeProportionally = (image, dimensions) => {
-  return new Promise((resolve, reject) => {
-    const mask = {}
+const resizeProportionally = (image, config) => {
+  const mask = {}
 
-    if (dimensions.width) {
-      mask.width = dimensions.width
-      mask.height = image.height * dimensions.width / image.width
-    } else {
-      mask.width = image.width * dimensions.height / image.height
-      mask.height = dimensions.height
-    }
+  if (config.width) {
+    mask.width = config.width
+    mask.height = image.height * config.width / image.width
+  } else {
+    mask.width = image.width * config.height / image.height
+    mask.height = config.height
+  }
 
-    createImage(image, {x: 0, y: 0}, mask, dimensions).then(resolve, reject)
-  })
+  return createImage(image, {x: 0, y: 0}, mask, config)
 }
 
-const createImage = (image, offset, mask, dest) => {
+const resizeByCoordinates = (image, config) => {
+  const dest = setDestinationSize(image, config)
+
+  const offset = {
+    x: -Math.ceil(config.x * dest.width),
+    y: -Math.ceil(config.y * dest.height)
+  }
+
+  return createImage(image, offset, config, dest)
+}
+
+const createImage = (image, offset, config, dest) => {
   return new Promise((resolve, reject) => {
     const canvas = createCanvas()
     const context = canvas.getContext('2d')
 
-    canvas.width = mask.width
-    canvas.height = mask.height
+    canvas.width = config.width
+    canvas.height = config.height
 
-    const width = dest.width || mask.width
-    const height = dest.height || mask.height
+    const width = dest.width || config.width
+    const height = dest.height || config.height
 
     context.drawImage(image, offset.x, offset.y, width, height)
     canvas.toBlob((blob) => {
       const imageObj = {
         blob,
-        dimensions: {
-          width: Math.floor(mask.width),
-          height: Math.floor(mask.height)
-        }
+        width: Math.floor(config.width),
+        height: Math.floor(config.height)
       }
 
       resolve(imageObj)
     })
   })
+}
+
+const setDestinationSize = (image, config) => {
+  const dest = {}
+  const scale = {
+    x: config.width / image.width,
+    y: config.height / image.height
+  }
+
+  if (scale.x >= scale.y) {
+    dest.width = Math.ceil(scale.x * image.width)
+    dest.height = Math.ceil(scale.x * image.height)
+  } else {
+    dest.width = Math.ceil(scale.y * image.width)
+    dest.height = Math.ceil(scale.y * image.height)
+  }
+
+  return dest
 }
 
 const getCenterOffset = (targetDimension, originDimension) => (

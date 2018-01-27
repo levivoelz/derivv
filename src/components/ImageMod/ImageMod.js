@@ -33,19 +33,13 @@ class ImageMod extends Component {
 
   setEditorRef = (editor) => this.editor = editor
 
-  buttonDisabled = () => {
-    const {width, height} = this.props.image
-
-    return (width && !height) || (!width && height)
-  }
-
   render() {
     return (
       <div>
         <IconButton
           onClick={this.openDialog}
           color='primary'
-          disabled={this.buttonDisabled()}
+          disabled={this.props.image.resizeType === 'resizeProportionally'}
           style={{width: 30, height: 30, padding: 3, fontSize: '1.2rem'}}>
           <CropIcon />
         </IconButton>

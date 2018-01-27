@@ -110,6 +110,7 @@ const _resize = (image, config) => {
 
       return {
         originalName: expandedFileName.name,
+        resizeType: config.resizeType,
         id: config.id,
         src: URL.createObjectURL(blob),
         blob,

@@ -102,7 +102,7 @@ export function processOne(image, config) {
 }
 
 const _resize = (image, config) => {
-  config = _buildConfig(config)
+  config = _buildConfig(image, config)
 
   return resizeImage(image.preview, config)
     .then(({blob, width, height}) => {
@@ -130,9 +130,10 @@ const _expandFileName = (fileName) => {
   }
 }
 
-const _buildConfig = (c) => {
+const _buildConfig = (image, c) => {
   const config = Object.assign({}, c)
   config.resizeType = _resizeType(config)
+  config.type = image.type
   return config
 }
 

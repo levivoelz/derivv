@@ -12,7 +12,7 @@ export const ImageCaption = ({image, showDownload}) => {
       <div className='image-caption--button'>
         <IconButton
           href={image.src}
-          download
+          download={image.name}
           color='primary'
           style={{width: 30, height: 30, padding: 7}}>
           <FileDownloadIcon />

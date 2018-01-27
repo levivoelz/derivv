@@ -122,7 +122,7 @@ const createImage = (image, offset, config, dest) => {
       }
 
       resolve(imageObj)
-    })
+    }, config.type)
   })
 }
 

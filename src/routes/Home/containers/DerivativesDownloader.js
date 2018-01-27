@@ -8,7 +8,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapActionCreators = {
-  onClick: downloadAll
+  downloadAll
 }
 
 export default connect(mapStateToProps, mapActionCreators)(DownloadButton)

@@ -6,7 +6,7 @@ import ImageMod from 'components/ImageMod'
 import './ImageCaption.css'
 
 const truncate = (str, width) => {
-  const thresh = Math.max(Math.floor(width / 10), 26)
+  const thresh = Math.max(Math.floor(width / 12), 20)
   if (str.length > thresh) {
     return str.slice(0, thresh) + '...'
   }

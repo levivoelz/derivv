@@ -74,17 +74,19 @@ export function processAll(image, configs) {
     dispatch(start())
     dispatch(clearAll())
 
-    configs.forEach((config) => {
-      _resize(image, config)
-        .then((derivativeImage) => {
-          dispatch(add(derivativeImage))
+    setTimeout(() => {
+      configs.forEach((config) => {
+        _resize(image, config)
+          .then((derivativeImage) => {
+            dispatch(add(derivativeImage))
 
-          if (config.id === configs[configs.length - 1].id) { // last item
-            dispatch(stop())
-            dispatch(enableDownload())
-          }
-        })
-    })
+            if (config.id === configs[configs.length - 1].id) { // last item
+              dispatch(stop())
+              dispatch(enableDownload())
+            }
+          })
+      })
+    }, 100)
   }
 }
 
@@ -92,12 +94,14 @@ export function processOne(image, config) {
   return (dispatch) => {
     dispatch(start(config.id))
     dispatch(disableDownload())
-    _resize(image, config)
-      .then((derivativeImage) => {
-        dispatch(update(derivativeImage))
-        dispatch(stop())
-        dispatch(enableDownload())
-      })
+    setTimeout(() => {
+      _resize(image, config)
+        .then((derivativeImage) => {
+          dispatch(update(derivativeImage))
+          dispatch(stop())
+          dispatch(enableDownload())
+        })
+    }, 100)
   }
 }
 

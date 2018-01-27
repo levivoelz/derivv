@@ -12,6 +12,9 @@ export const Image = ({image, originalImage, processOne, processing}) => {
           <h4>Reprocessing...</h4>
           <LinearProgress />
         </div>
+        <div style={{height: image.height / 2 + 40, width: image.width / 2}}>
+
+        </div>
         <ImageCaption
           processOne={processOne}
           originalImage={originalImage}
@@ -22,11 +25,24 @@ export const Image = ({image, originalImage, processOne, processing}) => {
 
   return (
     <div className='images--image'>
-      <img
-        alt={image.name}
-        width={image.width}
-        height={image.height}
-        src={image.src} />
+      <div className='images--images'>
+        <div className='images--retina'>
+          <h5>Retina Preview</h5>
+          <img
+            alt={image.name}
+            width={image.width / 2}
+            height={image.height / 2}
+            src={image.src} />
+        </div>
+        <div className='images--regular'>
+          <h5>Regular preview</h5>
+          <img
+            alt={image.name}
+            width={image.width}
+            height={image.height}
+            src={image.src} />
+        </div>
+      </div>
       <ImageCaption
         processOne={processOne}
         originalImage={originalImage}

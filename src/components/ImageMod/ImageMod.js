@@ -30,13 +30,22 @@ class ImageMod extends Component {
 
   setEditorRef = (editor) => this.editor = editor
 
+  buttonDisabled = () => {
+    const {width, height} = this.props.image
+
+    return width === height ||
+      (width && !height) ||
+      (!width && height)
+  }
+
   render() {
     return (
       <div>
         <IconButton
           onClick={this.openDialog}
           color='primary'
-          style={{width: 30, height: 30, padding: 7}}>
+          disabled={this.buttonDisabled()}
+          style={{width: 30, height: 30, padding: 3, fontSize: '1.2rem'}}>
           <CropIcon />
         </IconButton>
         <Dialog
@@ -53,9 +62,6 @@ class ImageMod extends Component {
               disableDrop
               border={[25, 25]}
               scale={1} />
-            <DialogContentText>
-              You can do it!
-            </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.closeDialog} color='primary'>

@@ -1,15 +1,14 @@
 import React from 'react'
 import IconButton from 'material-ui/IconButton'
 import FileDownloadIcon from 'material-ui-icons/FileDownload'
+import ImageMod from 'components/ImageMod'
 
 import './ImageCaption.css'
 
-export const ImageCaption = ({image, showDownload}) => {
-  let downloadButton
-
-  if (showDownload) {
-    downloadButton = (
-      <div className='image-caption--button'>
+export const ImageCaption = ({image, processOne, originalImage}) => {
+  return (
+    <div className='image-caption'>
+      <div className='image-caption--buttons'>
         <IconButton
           href={image.src}
           download={image.name}
@@ -17,13 +16,11 @@ export const ImageCaption = ({image, showDownload}) => {
           style={{width: 30, height: 30, padding: 7}}>
           <FileDownloadIcon />
         </IconButton>
+        <ImageMod
+          processOne={processOne}
+          originalImage={originalImage}
+          image={image} />
       </div>
-    )
-  }
-
-  return (
-    <div className='image-caption'>
-      {downloadButton}
       <div>
         <div className='image-caption--item'>
           Name: <span className='image-caption--value'>{image.name}</span>

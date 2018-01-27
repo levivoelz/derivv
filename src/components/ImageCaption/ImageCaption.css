@@ -15,7 +15,9 @@
   font-weight: 600;
 }
 
-.image-caption--button {
+.image-caption--buttons {
   border-right: 1px solid #575757;
+  display: flex;
+  
   padding-right: 10px;
 }

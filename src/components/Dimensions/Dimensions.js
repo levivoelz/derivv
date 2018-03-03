@@ -29,6 +29,7 @@ export const Dimensions = (props) => {
 
   const renderAddButton = () => (
     <IconButton
+      className='add-dimensions'
       onClick={handleAddClick}
       color='primary'
       style={buttonStyles}>
@@ -54,6 +55,7 @@ export const Dimensions = (props) => {
         value={dimensions.height}
         type='number' />
       <IconButton
+        className='remove-dimensions'
         disabled={onlyItem}
         style={buttonStyles}
         color='primary'

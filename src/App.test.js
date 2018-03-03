@@ -1,8 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import React from 'react'
+import App from './App'
+import renderer from 'react-test-renderer'
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-});
+describe('Component: App', () => {
+  it.skip('matches snapshot', () => {
+    // It appears as though this test needs a mock store.
+    const tree = renderer.create(<App />).toJSON()
+
+    expect(tree).toMatchSnapshot()
+  })
+})

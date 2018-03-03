@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
 import { Home } from 'routes'
 import Dialog, { DialogTitle, DialogContent, DialogContentText } from 'material-ui/Dialog'
 
@@ -22,12 +21,10 @@ class App extends Component {
 
     return (
       <div className='App'>
-        <main>
-          <Route exact path='/' component={Home} />
-        </main>
+        <Home />
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App

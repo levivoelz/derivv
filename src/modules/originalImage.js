@@ -35,14 +35,12 @@ export function add(image) {
 export function addImage(image) {
   return (dispatch) => {
     dispatch(actionStart())
-
-    if (image.size > 10000000) {
-      alert('Choose an image smaller than 10mb')
-      dispatch(actionStop())
-      return
-    }
+    dispatch(add(image))
+    dispatch(actionStop())
 
     // fix image orientation issues from iOS and retain exif data
+    // Currently this takes anywhere from 500 ms to 1000 ms to process,
+    // which is a huge bummer.
     loadImage.parseMetaData(
       image,
       (data) => {

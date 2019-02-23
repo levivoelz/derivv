@@ -38,9 +38,17 @@ export const Uploader = (props) => {
     )
   }
 
-  const handleDrop = (files) => {
+  const handleDrop = (images) => {
+    const image = images[0];
+
     clearAllDerivatives()
-    addImage(files[0])
+
+    if (image.size > 10000000) {
+      alert('Choose an image smaller than 10mb')
+      return
+    }
+
+    addImage(image)
   }
 
   const baseStyle = {

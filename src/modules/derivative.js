@@ -127,22 +127,24 @@ const _resize = (image, config) => {
 }
 
 const _expandFileName = (fileName) => {
-  const arr = fileName.split('.')
+  const splitFileName = fileName.split('.')
 
   return {
-    extension: arr.slice(arr.length - 1).join(),
-    name: arr.slice(0, -1).join()
+    extension: splitFileName.slice(splitFileName.length - 1).join(),
+    name: splitFileName.slice(0, -1).join()
   }
 }
 
-const _buildConfig = (image, c) => {
-  const config = Object.assign({}, c)
-  config.resizeType = _resizeType(config)
-  config.type = image.type
-  return config
+const _buildConfig = (image, config) => {
+  const configDuplicate = Object.assign({}, config)
+
+  configDuplicate.resizeType = _getResizeType(configDuplicate)
+  configDuplicate.type = image.type
+
+  return configDuplicate
 }
 
-const _resizeType = (config) => {
+const _getResizeType = (config) => {
   if (config.resizeType) {
     return config.resizeType
   }

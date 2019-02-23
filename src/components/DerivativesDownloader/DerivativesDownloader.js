@@ -21,11 +21,13 @@ class DerivativesDownloader extends Component {
   }
 
   onDownloadClick = () => {
-    this.setState({
-      open: true
-    })
-
     this.props.downloadAll()
+
+    if (!this.userHasBeenSupportive()) {
+      this.setState({
+        open: true
+      })
+    }
   }
 
   handleClose = () => {
@@ -34,33 +36,63 @@ class DerivativesDownloader extends Component {
     })
   }
 
+  userHasBeenSupportive = () => {
+    return localStorage.getItem('checkedOutMyBuyMeACoffeePage')
+  }
+
+  handleBuyMeCoffeeClick = () => {
+    localStorage.setItem('checkedOutMyBuyMeACoffeePage', true)
+
+    window.open(
+      'https://www.buymeacoffee.com/64GmRBo',
+      '_blank'
+    )
+  }
+
+  shareUrl = () => {
+    return (
+      process.env.NODE_ENV === 'production'
+        ? window.location.href
+        : 'http://levivoelz.com'
+    )
+  }
+
+  shareDefaultMessage = 'Hey, this is a rad way to resize images! Check it out.'
+
   render() {
     return (
       <div>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}>
-          <DialogTitle>{'Hey! Did you like this app?'}</DialogTitle>
+          <DialogTitle>
+            {'Hey! Did you like this app?'}
+          </DialogTitle>
           <DialogContent>
             <DialogContentText>
               If so, share with your friends so they can try it too and if you really like it, I'd love a coffee ;-)
             </DialogContentText>
-            <div className='social-share--buttons'>
+            <div className='social-share--buttons' style={{marginBottom: 10}}>
               <FacebookShareButton
-                url={process.env.NODE_ENV === 'production' ? window.location.href : 'http://levivoelz.com'}
-                quote='Hey, this is a rad way to resize images! Check it out.'>
+                url={this.shareUrl()}
+                quote={this.shareDefaultMessage}>
                 <FacebookIcon size={32} round />
               </FacebookShareButton>
               <TwitterShareButton
-                url={process.env.NODE_ENV === 'production' ? window.location.href : 'http://levivoelz.com'}
-                title='Hey, this is a rad way to resize images! Check it out.'>
+                url={this.shareUrl()}
+                title={this.shareDefaultMessage}>
                 <TwitterIcon size={32} round />
               </TwitterShareButton>
             </div>
-            <a className='bmc-button' target='_blank' rel='noopener noreferrer' href='https://www.buymeacoffee.com/64GmRBo'>
-              <img src='https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg' alt='' />
+            <button
+              className='bmc-button'
+              rel='noopener noreferrer'
+              onClick={this.handleBuyMeCoffeeClick}>
+              <img
+                src='https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg'
+                alt='buy me a coffee' />
               <span style={{marginLeft: 5}}>Buy me a coffee</span>
-            </a>
+            </button>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color='primary' autoFocus>

@@ -43,7 +43,7 @@ class DerivativesDownloader extends Component {
           <DialogTitle>{'Hey! Did you like this app?'}</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              If so, share with your friends so they can try it too and if you really like it, I'd love a cofee ;-)
+              If so, share with your friends so they can try it too and if you really like it, I'd love a coffee ;-)
             </DialogContentText>
             <div className='social-share--buttons'>
               <FacebookShareButton

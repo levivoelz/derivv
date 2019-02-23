@@ -9,7 +9,7 @@ export const DownloadButton = ({onClick, disabled}) => {
   return (
     <Button
       color='primary'
-      raised
+      variant='raised'
       style={{marginTop: 10}}
       onClick={onClick}>
         Download All

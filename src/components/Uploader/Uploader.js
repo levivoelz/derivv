@@ -28,7 +28,7 @@ export const Uploader = (props) => {
         <div className='uploader--right'>
           <h2>Drop or</h2>
           <Button
-            raised
+            variant='raised'
             color='primary'
             style={{width: '100%', marginTop: 10}}>
             choose an image

@@ -17,7 +17,7 @@ export const ImageProcessButton = (props) => {
     <Button
       disabled={disabled}
       color='primary'
-      raised
+      variant='raised'
       onClick={handleClick}
       style={{width: '100%'}}>
         Create Derivative Images

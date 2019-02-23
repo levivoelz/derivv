@@ -13,7 +13,7 @@ export const ConfigList = (props) => {
 
     return (
       <Dimensions
-        key={d.id}
+        key={i}
         dimensions={d}
         lastItem={lastItem}
         onlyItem={onlyItem}

@@ -1,0 +1,7 @@
+.social-share--buttons {
+  display: flex;
+}
+
+.social-share--buttons > div {
+  padding: 5px
+}

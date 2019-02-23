@@ -13,7 +13,7 @@ function downScaleImage(img, scale) {
 // scales the canvas by (float) scale < 1
 // returns a new canvas containing the scaled image.
 function downScaleCanvas(sourceCanvas, scale) {
-  if (!(scale < 1) || !(scale > 0)) throw new Error('scale must be a positive number <1 ')
+  if (!(scale < 1) || !(scale > 0)) throw new Error('scale must be a positive number < 1')
   scale = normalizeScale(scale)
   var squareScale = scale * scale // square scale =  area of a source pixel within target
   var sourceWidth = sourceCanvas.width // source image width
@@ -22,7 +22,7 @@ function downScaleCanvas(sourceCanvas, scale) {
   var targetHeight = Math.ceil(sourceHeight * scale) // target image height
   var sourceX = 0,
     sourceY = 0,
-    sIndex = 0 // source x,y, index within source array
+    sourceIndex = 0 // source x,y, index within source array
   var targetX = 0,
     targetY = 0,
     yIndex = 0,
@@ -59,7 +59,7 @@ function downScaleCanvas(sourceCanvas, scale) {
       nextWeightY = (targetY + scale - roundedTargetY - 1); // ... within y+1 target pixel
     }
 
-    for (sourceX = 0; sourceX < sourceWidth; sourceX++, sIndex += 4) {
+    for (sourceX = 0; sourceX < sourceWidth; sourceX++, sourceIndex += 4) {
       targetX = sourceX * scale; // x src position within target
       roundedTargetX = 0 | targetX; // rounded : target pixel's x
       tIndex = yIndex + roundedTargetX * 4; // target pixel index within target array
@@ -68,10 +68,10 @@ function downScaleCanvas(sourceCanvas, scale) {
         weightX = (roundedTargetX + 1 - targetX); // weight of point within target pixel
         nextWeightX = (targetX + scale - roundedTargetX - 1); // ... within x+1 target pixel
       }
-      sourceRed = sBuffer[sIndex]; // retrieving r,g,b for curr src px.
-      sourceGreen = sBuffer[sIndex + 1];
-      sourceBlue = sBuffer[sIndex + 2];
-      sourceAlpha = sBuffer[sIndex + 3];
+      sourceRed = sBuffer[sourceIndex]; // retrieving r,g,b for curr src px.
+      sourceGreen = sBuffer[sourceIndex + 1];
+      sourceBlue = sBuffer[sourceIndex + 2];
+      sourceAlpha = sBuffer[sourceIndex + 3];
 
       if (!crossX && !crossY) { // pixel does not cross
         // just add components weighted by squared scale.
@@ -134,24 +134,30 @@ function downScaleCanvas(sourceCanvas, scale) {
     } // end for sourceX
   } // end for sourceY
 
+  return createResultCanvas(targetWidth, targetHeight, targetBuffer)
+}
+
+function createResultCanvas(targetWidth, targetHeight, targetBuffer) {
   // create result canvas
   var resultCanvas = document.createElement('canvas')
   resultCanvas.width = targetWidth
   resultCanvas.height = targetHeight
-  var resCtx = resultCanvas.getContext('2d')
-  var imgRes = resCtx.getImageData(0, 0, targetWidth, targetHeight)
-  var tByteBuffer = imgRes.data
+  var resultContext = resultCanvas.getContext('2d')
+  var imageResult = resultContext.getImageData(0, 0, targetWidth, targetHeight)
+  var targetByteBuffer = imageResult.data
+
   // convert float32 array into a UInt8Clamped Array
-  var pxIndex = 0 //
-  for (sIndex = 0, tIndex = 0; pxIndex < targetWidth * targetHeight; sIndex += 4, tIndex += 4, pxIndex++) {
-    tByteBuffer[tIndex] = Math.ceil(targetBuffer[sIndex]);
-    tByteBuffer[tIndex + 1] = Math.ceil(targetBuffer[sIndex + 1]);
-    tByteBuffer[tIndex + 2] = Math.ceil(targetBuffer[sIndex + 2]);
-    tByteBuffer[tIndex + 3] = Math.ceil(targetBuffer[sIndex + 3]);
+  for (var pixelIndex = 0, sourceIndex = 0, targetIndex = 0; pixelIndex < targetWidth * targetHeight; sourceIndex += 4, targetIndex += 4, pixelIndex++) {
+    targetByteBuffer[targetIndex] = Math.ceil(targetBuffer[sourceIndex]);
+    targetByteBuffer[targetIndex + 1] = Math.ceil(targetBuffer[sourceIndex + 1]);
+    targetByteBuffer[targetIndex + 2] = Math.ceil(targetBuffer[sourceIndex + 2]);
+    targetByteBuffer[targetIndex + 3] = Math.ceil(targetBuffer[sourceIndex + 3]);
   }
+
   // writing result to canvas.
-  resCtx.putImageData(imgRes, 0, 0)
-  return resultCanvas
+  resultContext.putImageData(imageResult, 0, 0)
+
+  return resultCanvas;
 }
 
 function log2(v) {

@@ -119,3 +119,7 @@ img {
   color: #FFFFFF !important;
 }
 /* end BMC */
+
+.feedback-link {
+  margin-left: 10px;
+}

@@ -27,7 +27,7 @@ export const Image = ({image, originalImage, processOne, processing}) => {
     <div className='images--image'>
       <div className='images--images'>
         <div className='images--retina'>
-          <h5>Retina Preview</h5>
+          <h5>Retina Preview (2x)</h5>
           <img
             alt={image.name}
             width={image.width / 2}

@@ -28,10 +28,13 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "cypress:open": "cypress open",
     "eject": "react-scripts eject",
     "deploy": "npm run build && aws s3 sync ./build s3://derivv.com --delete"
   },
   "devDependencies": {
+    "cypress": "^3.1.5",
+    "cypress-file-upload": "^1.0.4",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.1",

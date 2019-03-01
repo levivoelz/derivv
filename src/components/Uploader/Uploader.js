@@ -63,6 +63,7 @@ export const Uploader = (props) => {
   return (
     <div className='uploader'>
       <Dropzone
+        className='dropzone'
         accept='image/*'
         onDrop={handleDrop}
         activeStyle={activeStyle}

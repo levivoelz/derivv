@@ -18,7 +18,7 @@
     "react-dropzone": "^4.2.3",
     "react-redux": "^6.0.1",
     "react-router-redux": "^4.0.8",
-    "react-scripts": "1.0.17",
+    "react-scripts": "2.1.5",
     "react-share": "^2.0.0",
     "redux": "^4.0.1",
     "redux-localstorage": "^0.4.1",
@@ -30,7 +30,7 @@
     "test": "react-scripts test --env=jsdom",
     "cypress:open": "cypress open",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && aws s3 sync ./build s3://derivv.com --delete"
+    "deploy": "yarn build && aws s3 sync ./build s3://derivv.com --delete"
   },
   "devDependencies": {
     "cypress": "^3.1.5",
@@ -39,5 +39,11 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.1",
     "react-test-renderer": "^16.2.0"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

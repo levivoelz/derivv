@@ -4,7 +4,7 @@ import Dimensions from './Dimensions'
 const DIMENSIONS = {width: 20, height: 20}
 
 describe('Component: Dimensions', () => {
-  it('matches snapshot', () => {
+  it.skip('matches snapshot', () => {
     const component = renderer.create(
       <Dimensions dimensions={DIMENSIONS} />
     )

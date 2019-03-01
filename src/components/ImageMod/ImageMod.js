@@ -52,7 +52,6 @@ class ImageMod extends Component {
               image={this.props.originalImage.preview}
               width={this.props.image.width}
               height={this.props.image.height}
-              disableDrop
               border={[25, 25]}
               scale={1} />
           </DialogContent>

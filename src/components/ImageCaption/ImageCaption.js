@@ -21,6 +21,7 @@ export const ImageCaption = ({image, processOne, originalImage}) => {
         <IconButton
           href={image.src}
           download={image.name}
+          title='Download only this image'
           color='primary'
           style={{width: 30, height: 30, padding: 7}}>
           <FileDownloadIcon />

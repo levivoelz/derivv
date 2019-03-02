@@ -36,6 +36,7 @@ class ImageMod extends Component {
       <div>
         <IconButton
           onClick={this.openDialog}
+          title='Adjust Crop'
           color='primary'
           disabled={this.props.image.resizeType === 'resizeProportionally'}
           style={{width: 30, height: 30, padding: 3, fontSize: '1.2rem'}}>

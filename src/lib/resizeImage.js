@@ -6,75 +6,68 @@ const resizeImage = (src, config) => {
     image.src = src
 
     image.onload = () => {
-      image = downscaleImageForResize(image, config)
+      image = downscaleImageByProperScale(image, config)
 
       resizeByType(image, config).then(resolve, reject)
     }
   })
 }
 
-const downscaleImageForResize = (image, config) => {
-  try {
-    if (!config.height) {
-      return downscaleImage(image, config.width / image.width)
-    }
+const downscaleImageByProperScale = (image, config) => {
+  let scale
 
-    if (!config.width) {
-      return downscaleImage(image, config.height / image.height)
-    }
-
-    const largerOrig = findLarger(image)
-    const largerDest = findLarger(config)
-    const smallerOrigDim = Math.min(image.width, image.height)
-    const largerDestDim = Math.max(config.width, config.height)
-
-    if (largerOrig === 'same' && largerDest === 'same') {
-      return downscaleImage(image, config.width / image.width) // width or height (doesn't matter)
-    }
-
-    if (smallerOrigDim > largerDestDim) {
-      return downscaleImage(image, largerDestDim / smallerOrigDim)
-    }
-
-    return image
-  } catch (e) {
-    return image
+  if (!config.height) {
+    scale = config.width / image.width
   }
-}
 
-const findLarger = (dims) => {
-  switch (true) {
-    case dims.width > dims.height:
-      return 'width'
-    case dims.width < dims.height:
-      return 'height'
-    default:
-      return 'same'
+  if (!config.width) {
+    scale = config.height / image.height
   }
+
+  if (image.width === image.height && config.width === config.height) {
+    scale =  config.width / image.width // width or height (doesn't matter)
+  }
+
+  const shortestImageDimension = Math.min(image.width, image.height)
+  const largestConfigDimension = Math.max(config.width, config.height)
+
+  if (shortestImageDimension > largestConfigDimension) {
+    scale = largestConfigDimension / shortestImageDimension
+  }
+
+  if (scale) {
+    image = downscaleImage(image, scale)
+  }
+
+  return image
 }
 
 const resizeByType = (image, config) => {
+  let resizeFunc
+
   switch (config.resizeType) {
-    case 'resizeToFill':
-      return resizeToFill(image, config)
     case 'resizeProportionally':
-      return resizeProportionally(image, config)
+      resizeFunc = resizeProportionally
+      break
     case 'resizeByCoordinates':
-      return resizeByCoordinates(image, config)
+      resizeFunc = resizeByCoordinates
+      break
     default:
-      return new Error('No resize type specified')
+      resizeFunc = resizeToFill
   }
+
+  return resizeFunc(image, config)
 }
 
 const resizeToFill = (image, config) => {
-  const dest = setDestinationSize(image, config)
+  const target = setTargetImageSize(image, config)
 
   const offset = {
-    x: getCenterOffset(config.width, dest.width),
-    y: getCenterOffset(config.height, dest.height)
+    x: getCenterOffset(config.width, target.width),
+    y: getCenterOffset(config.height, target.height)
   }
 
-  return createImage(image, offset, config, dest)
+  return createImage(image, offset, config, target)
 }
 
 const resizeProportionally = (image, config) => {
@@ -92,26 +85,50 @@ const resizeProportionally = (image, config) => {
 }
 
 const resizeByCoordinates = (image, config) => {
-  const dest = setDestinationSize(image, config)
+  const target = setTargetImageSize(image, config)
 
   const offset = {
-    x: -Math.ceil(config.x * dest.width),
-    y: -Math.ceil(config.y * dest.height)
+    x: -Math.ceil(config.x * target.width),
+    y: -Math.ceil(config.y * target.height)
   }
 
-  return createImage(image, offset, config, dest)
+  return createImage(image, offset, config, target)
 }
 
-const createImage = (image, offset, config, dest) => {
+const setTargetImageSize = (image, config) => {
+  const target = {}
+  const scale = {
+    x: config.width / image.width,
+    y: config.height / image.height
+  }
+
+  if (scale.x >= scale.y) {
+    target.width = Math.ceil(scale.x * image.width)
+    target.height = Math.ceil(scale.x * image.height)
+  } else {
+    target.width = Math.ceil(scale.y * image.width)
+    target.height = Math.ceil(scale.y * image.height)
+  }
+
+  return target
+}
+
+const getCenterOffset = (targetDimension, originDimension) => (
+  Math.floor(getCenter(targetDimension) - getCenter(originDimension))
+)
+
+const getCenter = dimension => dimension / 2
+
+const createImage = (image, offset, config, target) => {
   return new Promise((resolve, reject) => {
-    const canvas = createCanvas()
+    const canvas = document.createElement('canvas')
     const context = canvas.getContext('2d')
 
     canvas.width = config.width
     canvas.height = config.height
 
-    const width = dest.width || config.width
-    const height = dest.height || config.height
+    const width = target.width || config.width
+    const height = target.height || config.height
 
     context.drawImage(image, offset.x, offset.y, width, height)
     canvas.toBlob((blob) => {
@@ -125,31 +142,5 @@ const createImage = (image, offset, config, dest) => {
     }, config.type)
   })
 }
-
-const setDestinationSize = (image, config) => {
-  const dest = {}
-  const scale = {
-    x: config.width / image.width,
-    y: config.height / image.height
-  }
-
-  if (scale.x >= scale.y) {
-    dest.width = Math.ceil(scale.x * image.width)
-    dest.height = Math.ceil(scale.x * image.height)
-  } else {
-    dest.width = Math.ceil(scale.y * image.width)
-    dest.height = Math.ceil(scale.y * image.height)
-  }
-
-  return dest
-}
-
-const getCenterOffset = (targetDimension, originDimension) => (
-  Math.floor(getCenter(targetDimension) - getCenter(originDimension))
-)
-
-const getCenter = dimension => dimension / 2
-
-const createCanvas = () => document.createElement('canvas')
 
 export default resizeImage

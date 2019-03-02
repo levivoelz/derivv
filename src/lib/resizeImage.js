@@ -1,14 +1,14 @@
 import downscaleImage from './downscale'
 
 const resizeImage = (src, config) => {
+  let image = new Image()
+  image.src = src
+
   return new Promise((resolve, reject) => {
-    let image = new Image()
-    image.src = src
-
     image.onload = () => {
-      image = downscaleImageByProperScale(image, config)
-
-      resizeByType(image, config).then(resolve, reject)
+      downscaleImageByProperScale(image, config).then(image => {
+        resizeByType(image, config).then(resolve, reject)
+      })
     }
   })
 }
@@ -36,10 +36,12 @@ const downscaleImageByProperScale = (image, config) => {
   }
 
   if (scale) {
-    image = downscaleImage(image, scale)
+    return downscaleImage(image, scale)
   }
 
-  return image
+  return new Promise((resolve, reject) => {
+    resolve(image)
+  })
 }
 
 const resizeByType = (image, config) => {

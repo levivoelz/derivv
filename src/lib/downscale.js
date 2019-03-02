@@ -2,169 +2,155 @@
 // scales the image by (float) scale < 1
 // returns a canvas containing the scaled image.
 function downScaleImage(img, scale) {
-  var imgCV = document.createElement('canvas')
-  imgCV.width = img.width
-  imgCV.height = img.height
-  var imgCtx = imgCV.getContext('2d')
-  imgCtx.drawImage(img, 0, 0)
-  return downScaleCanvas(imgCV, scale)
+  const canvas = document.createElement('canvas')
+  canvas.width = img.width
+  canvas.height = img.height
+  const context = canvas.getContext('2d')
+
+  context.drawImage(img, 0, 0)
+
+  return downScaleCanvas(canvas, scale)
 }
 
 // scales the canvas by (float) scale < 1
 // returns a new canvas containing the scaled image.
-function downScaleCanvas(sourceCanvas, scale) {
-  if (!(scale < 1) || !(scale > 0)) throw new Error('scale must be a positive number < 1')
+function downScaleCanvas(canvas, scale) {
+  if (!(scale < 1) || !(scale > 0)) {
+    throw new Error('scale must be a positive number < 1')
+  }
+
   scale = normalizeScale(scale)
-  var squareScale = scale * scale // square scale =  area of a source pixel within target
-  var sourceWidth = sourceCanvas.width // source image width
-  var sourceHeight = sourceCanvas.height // source image height
-  var targetWidth = Math.ceil(sourceWidth * scale) // target image width
-  var targetHeight = Math.ceil(sourceHeight * scale) // target image height
-  var sourceX = 0,
-    sourceY = 0,
-    sourceIndex = 0 // source x,y, index within source array
-  var targetX = 0,
-    targetY = 0,
-    yIndex = 0,
-    tIndex = 0 // target x,y, x,y index within target array
-  var roundedTargetX = 0,
-    roundedTargetY = 0 // rounded targetX, targetY
-  var weight = 0,
+
+  const source = {
+    x: 0,
+    y: 0,
+    index: 0,
+    width: canvas.width,
+    height: canvas.height
+  };
+
+  source.buffer = canvas.getContext('2d')
+    .getImageData(0, 0, source.width, source.height)
+    .data;
+
+  let target = {
+    x: 0,
+    y: 0,
+    index: 0,
+    roundedX: 0,
+    roundedY: 0,
+    width: Math.ceil(source.width * scale),
+    height: Math.ceil(source.height * scale),
+  };
+
+  target.buffer = new Float32Array(4 * target.width * target.height); // Float32 rgba
+
+  const currentPixel = {
+    red: 0,
+    green: 0,
+    blue: 0,
+    alpha: 0
+  }
+
+  let yIndex = 0;
+
+  let weight = 0,
     nextWeight = 0,
     weightX = 0,
     nextWeightX = 0,
-    weightY = 0,
-    nextWeightY = 0 // weight / next weight x / y
-  // weight is weight of current source point within target.
-  // next weight is weight of current source point within next target's point.
-  var crossX = false // does scaled px cross its current px right border ?
-  var crossY = false // does scaled px cross its current px bottom border ?
-  var sBuffer = sourceCanvas.getContext('2d')
-    .getImageData(0, 0, sourceWidth, sourceHeight)
-    .data // source buffer 8 bit rgba
-  var targetBuffer = new Float32Array(4 * targetWidth * targetHeight) // target buffer Float32 rgb
-  var sourceRed = 0,
-    sourceGreen = 0,
-    sourceBlue = 0, // source's current point r,g,b
-    sourceAlpha = 0; //source alpha
+    weightY = 0, // weight is weight of current source point within target.
+    nextWeightY = 0 // next weight is weight of current source point within next target's point.
 
-  for (sourceY = 0; sourceY < sourceHeight; sourceY++) {
-    targetY = sourceY * scale; // y src position within target
-    roundedTargetY = 0 | targetY; // rounded : target pixel's y
-    yIndex = 4 * roundedTargetY * targetWidth; // line index within target array
-    crossY = (roundedTargetY !== (0 | targetY + scale));
+  let crossesX = false // does scaled px cross its current px right border ?
+  let crossesY = false // does scaled px cross its current px bottom border ?
 
-    if (crossY) { // if pixel is crossing botton target pixel
-      weightY = (roundedTargetY + 1 - targetY); // weight of point within target pixel
-      nextWeightY = (targetY + scale - roundedTargetY - 1); // ... within y+1 target pixel
+  for (source.y = 0; source.y < source.height; source.y++) {
+    target.y = source.y * scale; // y src position within target
+    target.roundedY = 0 | target.y; // rounded : target pixel's y
+    yIndex = 4 * target.roundedY * target.width; // line index within target array
+    crossesY = (target.roundedY !== (0 | target.y + scale));
+
+    if (crossesY) { // if pixel is crossing botton target pixel
+      weightY = (target.roundedY + 1 - target.y); // weight of point within target pixel
+      nextWeightY = (target.y + scale - target.roundedY - 1); // ... within y+1 target pixel
     }
 
-    for (sourceX = 0; sourceX < sourceWidth; sourceX++, sourceIndex += 4) {
-      targetX = sourceX * scale; // x src position within target
-      roundedTargetX = 0 | targetX; // rounded : target pixel's x
-      tIndex = yIndex + roundedTargetX * 4; // target pixel index within target array
-      crossX = (roundedTargetX !== (0 | targetX + scale));
-      if (crossX) { // if pixel is crossing target pixel's right
-        weightX = (roundedTargetX + 1 - targetX); // weight of point within target pixel
-        nextWeightX = (targetX + scale - roundedTargetX - 1); // ... within x+1 target pixel
-      }
-      sourceRed = sBuffer[sourceIndex]; // retrieving r,g,b for curr src px.
-      sourceGreen = sBuffer[sourceIndex + 1];
-      sourceBlue = sBuffer[sourceIndex + 2];
-      sourceAlpha = sBuffer[sourceIndex + 3];
+    for (source.x = 0; source.x < source.width; source.x++, source.index += 4) {
+      target.x = source.x * scale; // x src position within target
+      target.roundedX = 0 | target.x; // rounded : target pixel's x
+      target.index = yIndex + target.roundedX * 4; // target pixel index within target array
+      crossesX = (target.roundedX !== (0 | target.x + scale));
 
-      if (!crossX && !crossY) { // pixel does not cross
+      if (crossesX) { // if pixel is crossing target pixel's right
+        weightX = (target.roundedX + 1 - target.x); // weight of point within target pixel
+        nextWeightX = (target.x + scale - target.roundedX - 1); // ... within x+1 target pixel
+      }
+
+      currentPixel.red = source.buffer[source.index]; // retrieving r,g,b for curr src px.
+      currentPixel.green = source.buffer[source.index + 1];
+      currentPixel.blue = source.buffer[source.index + 2];
+      currentPixel.alpha = source.buffer[source.index + 3];
+
+      if (!crossesX && !crossesY) { // pixel does not cross
         // just add components weighted by squared scale.
-        targetBuffer[tIndex] += sourceRed * squareScale;
-        targetBuffer[tIndex + 1] += sourceGreen * squareScale;
-        targetBuffer[tIndex + 2] += sourceBlue * squareScale;
-        targetBuffer[tIndex + 3] += sourceAlpha * squareScale;
-      } else if (crossX && !crossY) { // cross on X only
+        target = updateBuffer(target, target.index, currentPixel, scale * scale)
+      } else if (crossesX && !crossesY) { // cross on X only
+        // add weighted component for current px
         weight = weightX * scale;
-        // add weighted component for current px
-        targetBuffer[tIndex] += sourceRed * weight;
-        targetBuffer[tIndex + 1] += sourceGreen * weight;
-        targetBuffer[tIndex + 2] += sourceBlue * weight;
-        targetBuffer[tIndex + 3] += sourceAlpha * weight;
-        // add weighted component for next (roundedTargetX+1) px
+        target = updateBuffer(target, target.index, currentPixel, weight);
+
+        // add weighted component for next (target.roundedX+1) px
         nextWeight = nextWeightX * scale
-        targetBuffer[tIndex + 4] += sourceRed * nextWeight; // not 3
-        targetBuffer[tIndex + 5] += sourceGreen * nextWeight; // not 4
-        targetBuffer[tIndex + 6] += sourceBlue * nextWeight; // not 5
-        targetBuffer[tIndex + 7] += sourceAlpha * nextWeight; // not 6
-      } else if (crossY && !crossX) { // cross on Y only
-        weight = weightY * scale;
+        target = updateBuffer(target, target.index + 4, currentPixel, nextWeight)
+      } else if (crossesY && !crossesX) { // cross on Y only
         // add weighted component for current px
-        targetBuffer[tIndex] += sourceRed * weight;
-        targetBuffer[tIndex + 1] += sourceGreen * weight;
-        targetBuffer[tIndex + 2] += sourceBlue * weight;
-        targetBuffer[tIndex + 3] += sourceAlpha * weight;
-        // add weighted component for next (roundedTargetY+1) px
+        weight = weightY * scale;
+        target = updateBuffer(target, target.index, currentPixel, weight);
+
+        // add weighted component for next (target.roundedY+1) px
         nextWeight = nextWeightY * scale
-        targetBuffer[tIndex + 4 * targetWidth] += sourceRed * nextWeight; // *4, not 3
-        targetBuffer[tIndex + 4 * targetWidth + 1] += sourceGreen * nextWeight; // *4, not 3
-        targetBuffer[tIndex + 4 * targetWidth + 2] += sourceBlue * nextWeight; // *4, not 3
-        targetBuffer[tIndex + 4 * targetWidth + 3] += sourceAlpha * nextWeight; // *4, not 3
+        target = updateBuffer(target, target.index + 4 * target.width, currentPixel, nextWeight);
       } else { // crosses both x and y : four target points involved
         // add weighted component for current px
         weight = weightX * weightY;
-        targetBuffer[tIndex] += sourceRed * weight;
-        targetBuffer[tIndex + 1] += sourceGreen * weight;
-        targetBuffer[tIndex + 2] += sourceBlue * weight;
-        targetBuffer[tIndex + 3] += sourceAlpha * weight;
-        // for roundedTargetX + 1; roundedTargetY px
-        nextWeight = nextWeightX * weightY;
-        targetBuffer[tIndex + 4] += sourceRed * nextWeight; // same for x
-        targetBuffer[tIndex + 5] += sourceGreen * nextWeight;
-        targetBuffer[tIndex + 6] += sourceBlue * nextWeight;
-        targetBuffer[tIndex + 7] += sourceAlpha * nextWeight;
-        // for roundedTargetX ; roundedTargetY + 1 px
-        nextWeight = weightX * nextWeightY;
-        targetBuffer[tIndex + 4 * targetWidth] += sourceRed * nextWeight; // same for mul
-        targetBuffer[tIndex + 4 * targetWidth + 1] += sourceGreen * nextWeight;
-        targetBuffer[tIndex + 4 * targetWidth + 2] += sourceBlue * nextWeight;
-        targetBuffer[tIndex + 4 * targetWidth + 3] += sourceAlpha * nextWeight;
-        // for roundedTargetX + 1 ; roundedTargetY +1 px
-        nextWeight = nextWeightX * nextWeightY;
-        targetBuffer[tIndex + 4 * targetWidth + 4] += sourceRed * nextWeight; // same for both x and y
-        targetBuffer[tIndex + 4 * targetWidth + 5] += sourceGreen * nextWeight;
-        targetBuffer[tIndex + 4 * targetWidth + 6] += sourceBlue * nextWeight;
-        targetBuffer[tIndex + 4 * targetWidth + 7] += sourceAlpha * nextWeight;
-      }
-    } // end for sourceX
-  } // end for sourceY
+        target = updateBuffer(target, target.index, currentPixel, weight)
 
-  return createResultCanvas(targetWidth, targetHeight, targetBuffer)
+        // for target.roundedX + 1; target.roundedY px
+        nextWeight = nextWeightX * weightY;
+        target = updateBuffer(target, target.index + 4, currentPixel, nextWeight)
+
+        // for target.roundedX ; target.roundedY + 1 px
+        nextWeight = weightX * nextWeightY;
+        target = updateBuffer(target, target.index + (4 * target.width), currentPixel, nextWeight);
+        // for target.roundedX + 1 ; target.roundedY +1 px
+        nextWeight = nextWeightX * nextWeightY;
+        target = updateBuffer(target, target.index + (4 * target.width) + 4, currentPixel, nextWeight);
+      }
+    } // end for source.x
+  } // end for source.y
+
+  return createResultCanvas(target)
 }
 
-function createResultCanvas(targetWidth, targetHeight, targetBuffer) {
-  // create result canvas
-  var resultCanvas = document.createElement('canvas')
-  resultCanvas.width = targetWidth
-  resultCanvas.height = targetHeight
-  var resultContext = resultCanvas.getContext('2d')
-  var imageResult = resultContext.getImageData(0, 0, targetWidth, targetHeight)
-  var targetByteBuffer = imageResult.data
-
-  // convert float32 array into a UInt8Clamped Array
-  for (var pixelIndex = 0, sourceIndex = 0, targetIndex = 0; pixelIndex < targetWidth * targetHeight; sourceIndex += 4, targetIndex += 4, pixelIndex++) {
-    targetByteBuffer[targetIndex] = Math.ceil(targetBuffer[sourceIndex]);
-    targetByteBuffer[targetIndex + 1] = Math.ceil(targetBuffer[sourceIndex + 1]);
-    targetByteBuffer[targetIndex + 2] = Math.ceil(targetBuffer[sourceIndex + 2]);
-    targetByteBuffer[targetIndex + 3] = Math.ceil(targetBuffer[sourceIndex + 3]);
+// normalize a scale <1 to avoid some rounding issue with js numbers
+function normalizeScale(s) {
+  s = 0 | (1 / s)
+  let l = log2(s)
+  let mask = 1 << l
+  let accuracy = 4
+  while (accuracy && l) {
+    l--
+    mask |= 1 << l
+    accuracy--
   }
-
-  // writing result to canvas.
-  resultContext.putImageData(imageResult, 0, 0)
-
-  return resultCanvas;
+  return 1 / (s & mask)
 }
 
 function log2(v) {
   // taken from http://graphics.stanford.edu/~seander/bithacks.html
-  var b = [0x2, 0xC, 0xF0, 0xFF00, 0xFFFF0000]
-  var S = [1, 2, 4, 8, 16]
-  var i = 0,
+  let b = [0x2, 0xC, 0xF0, 0xFF00, 0xFFFF0000]
+  let S = [1, 2, 4, 8, 16]
+  let i = 0,
     r = 0
 
   for (i = 4; i >= 0; i--) {
@@ -175,19 +161,36 @@ function log2(v) {
   }
   return r
 }
-// normalize a scale <1 to avoid some rounding issue with js numbers
-function normalizeScale(s) {
-  if (s > 1) throw new Error('s must be <1')
-  s = 0 | (1 / s)
-  var l = log2(s)
-  var mask = 1 << l
-  var accuracy = 4
-  while (accuracy && l) {
-    l--
-    mask |= 1 << l
-    accuracy--
+
+function updateBuffer(target, index, currentPixel, weight) {
+  target.buffer[index] += currentPixel.red * weight;
+  target.buffer[index + 1] += currentPixel.green * weight;
+  target.buffer[index + 2] += currentPixel.blue * weight;
+  target.buffer[index + 3] += currentPixel.alpha * weight;
+
+  return target;
+}
+
+function createResultCanvas(target) {
+  const canvas = document.createElement('canvas')
+  canvas.width = target.width
+  canvas.height = target.height
+  const context = canvas.getContext('2d')
+
+  const imageResult = context.getImageData(0, 0, target.width, target.height)
+  const targetByteBuffer = imageResult.data
+
+  // convert float32 array into a UInt8Clamped Array
+  for (let pixelIndex = 0, sourceIndex = 0, targetIndex = 0; pixelIndex < target.width * target.height; sourceIndex += 4, targetIndex += 4, pixelIndex++) {
+    targetByteBuffer[targetIndex] = Math.ceil(target.buffer[sourceIndex]);
+    targetByteBuffer[targetIndex + 1] = Math.ceil(target.buffer[sourceIndex + 1]);
+    targetByteBuffer[targetIndex + 2] = Math.ceil(target.buffer[sourceIndex + 2]);
+    targetByteBuffer[targetIndex + 3] = Math.ceil(target.buffer[sourceIndex + 3]);
   }
-  return 1 / (s & mask)
+
+  context.putImageData(imageResult, 0, 0)
+
+  return canvas;
 }
 
 export default downScaleImage

@@ -3,7 +3,7 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import bugsnag from 'bugsnag-js'
 import createPlugin from 'bugsnag-react'
-import registerServiceWorker from './registerServiceWorker';
+import { unregister } from './registerServiceWorker';
 
 import store from './store'
 import App from './App'
@@ -21,4 +21,4 @@ render(
   target
 )
 
-registerServiceWorker()
+unregister()

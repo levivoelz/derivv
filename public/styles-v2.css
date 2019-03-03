@@ -123,3 +123,8 @@ img {
 .feedback-link {
   margin-left: 10px;
 }
+
+.logo {
+  max-width: 130px;
+  padding: 10px;
+}

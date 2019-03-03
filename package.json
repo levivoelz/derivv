@@ -30,7 +30,9 @@
     "test": "react-scripts test --env=jsdom",
     "cypress:open": "cypress open",
     "eject": "react-scripts eject",
-    "deploy": "yarn build && aws s3 sync ./build s3://derivv.com --delete"
+    "aws:sync": "aws s3 sync ./build s3://derivv.com --delete",
+    "aws:bustcache": "aws cloudfront create-invalidation --distribution-id E2MQXBB02THV2B --paths /index.html",
+    "deploy": "yarn build && yarn aws:sync && yarn aws:bustcache"
   },
   "devDependencies": {
     "cypress": "^3.1.5",

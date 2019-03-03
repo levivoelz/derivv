@@ -16,6 +16,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  animation: fadein 1s;
 }
 
 .images--images {
@@ -28,4 +29,20 @@
 
 .images--image img {
   margin-top: 5px;
+}
+
+.reprocessing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadein 0.2s;
+}
+
+.reprocessing > div {
+  width: 100%;
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }

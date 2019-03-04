@@ -35,8 +35,6 @@ export function add(image) {
 export function addImage(image) {
   return (dispatch) => {
     dispatch(actionStart())
-    dispatch(add(image))
-    dispatch(actionStop())
 
     // fix image orientation issues from iOS and retain exif data
     // Currently this takes anywhere from 500 ms to 1000 ms to process,

@@ -1,6 +1,6 @@
 {
   "name": "derivv",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "dependencies": {
     "blueimp-canvas-to-blob": "^3.14.0",

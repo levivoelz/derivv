@@ -13,6 +13,7 @@ export const DERIVATIVE_CLEAR_ALL = 'DERIVATIVE_CLEAR_ALL'
 export const DERIVATIVE_DOWNLOAD_ALL = 'DERIVATIVE_DOWNLOAD_ALL'
 export const DERIVATIVE_ENABLE_DOWNLOAD = 'DERIVATIVE_ENABLE_DOWNLOAD'
 export const DERIVATIVE_DISABLE_DOWNLOAD = 'DERIVATIVE_DISABLE_DOWNLOAD'
+export const DERIVATIVE_ADD_ERROR = 'DERIVATIVE_ADD_ERROR'
 
 // ------------------------------------
 // Actions
@@ -69,6 +70,13 @@ export function downloadAll() {
   }
 }
 
+function addError(error) {
+  return {
+    type: DERIVATIVE_ADD_ERROR,
+    payload: error
+  }
+}
+
 export function processAll(image, configs) {
   return (dispatch) => {
     dispatch(start())
@@ -85,6 +93,10 @@ export function processAll(image, configs) {
               dispatch(enableDownload())
             }
           })
+          .catch((err) => {
+            dispatch(addError(err))
+            dispatch(stop())
+          })
       })
     }, 100)
   }
@@ -100,6 +112,10 @@ export function processOne(image, config) {
           dispatch(update(derivativeImage))
           dispatch(stop())
           dispatch(enableDownload())
+        })
+        .catch((err) => {
+          dispatch(addError(err))
+          dispatch(stop())
         })
     }, 100)
   }
@@ -166,7 +182,7 @@ export const actions = {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [DERIVATIVE_START]: (state, action) => {
-    return {...state, acting: action.acting}
+    return {...state, acting: action.acting, error: null}
   },
   [DERIVATIVE_STOP]: (state, action) => {
     return {...state, acting: action.acting}
@@ -208,6 +224,9 @@ const ACTION_HANDLERS = {
       })
 
     return state
+  },
+  [DERIVATIVE_ADD_ERROR]: (state, action) => {
+    return {...state, error: action.payload}
   }
 }
 
@@ -217,7 +236,8 @@ const ACTION_HANDLERS = {
 const initialState = {
   images: [],
   acting: false,
-  downloadable: false
+  downloadable: false,
+  error: null
 }
 
 export default function derivativeReducer(state = initialState, action) {

@@ -8,32 +8,13 @@ const resizeImage = (src, config) => {
     image.onload = () => {
       downscaleImageByProperScale(image, config).then(image => {
         resizeByType(image, config).then(resolve, reject)
-      })
+      }).catch(reject)
     }
   })
 }
 
 const downscaleImageByProperScale = (image, config) => {
-  let scale
-
-  if (!config.height) {
-    scale = config.width / image.width
-  }
-
-  if (!config.width) {
-    scale = config.height / image.height
-  }
-
-  if (image.width === image.height && config.width === config.height) {
-    scale =  config.width / image.width // width or height (doesn't matter)
-  }
-
-  const shortestImageDimension = Math.min(image.width, image.height)
-  const largestConfigDimension = Math.max(config.width, config.height)
-
-  if (shortestImageDimension > largestConfigDimension) {
-    scale = largestConfigDimension / shortestImageDimension
-  }
+  const scale = setScale(image, config)
 
   if (scale) {
     return downscaleImage(image, scale)
@@ -43,6 +24,44 @@ const downscaleImageByProperScale = (image, config) => {
     resolve(image)
   })
 }
+
+const setScale = (image, config) => {
+  let scale
+
+  if (imageLargerThanConfig(image, config)) {
+    scale = getLargerConfigDimension(config) / getShorterImageDimension(image)
+
+    if (!config.height) {
+      scale = config.width / image.width
+    }
+
+    if (!config.width) {
+      scale = config.height / image.height
+    }
+
+    if (isImageAndConfigProportional(image, config)) {
+      scale =  config.width / image.width // width or height (doesn't matter)
+    }
+  }
+
+  return scale
+}
+
+const isImageAndConfigProportional = (image, config) => {
+  return image.width === image.height && config.width === config.height
+}
+
+const imageLargerThanConfig = (image, config) => {
+  return getShorterImageDimension(image) > getLargerConfigDimension(config)
+}
+
+const getShorterImageDimension = (image) => (
+  Math.min(image.width, image.height)
+)
+
+const getLargerConfigDimension = (config) => (
+  Math.max(config.width, config.height)
+)
 
 const resizeByType = (image, config) => {
   let resizeFunc

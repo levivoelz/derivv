@@ -5,31 +5,31 @@ import downscaleWorker from './downscale.worker'
 // scales the image by (float) scale < 1
 // returns a canvas containing the scaled image.
 function downscaleImage(img, scale) {
-  if (!(scale < 1) || !(scale > 0)) {
-    throw new Error('scale must be a positive number < 1')
-  }
-
-  const canvas = document.createElement('canvas')
-  canvas.width = img.width
-  canvas.height = img.height
-  const context = canvas.getContext('2d')
-
-  context.drawImage(img, 0, 0)
-  const imageData = context
-    .getImageData(0, 0, canvas.width, canvas.height)
-    .data;
-
-  const data = {
-    imageData,
-    sourceWidth: canvas.width,
-    sourceHeight: canvas.height,
-    scale: normalizeScale(scale)
-  }
-
-  const worker = new WebWorker(downscaleWorker)
-  worker.postMessage(data)
-
   return new Promise((resolve, reject) => {
+    if (!(scale < 1) || !(scale > 0)) {
+      reject('scale must be a positive number < 1')
+    }
+
+    const canvas = document.createElement('canvas')
+    canvas.width = img.width
+    canvas.height = img.height
+    const context = canvas.getContext('2d')
+
+    context.drawImage(img, 0, 0)
+    const imageData = context
+      .getImageData(0, 0, canvas.width, canvas.height)
+      .data;
+
+    const data = {
+      imageData,
+      sourceWidth: canvas.width,
+      sourceHeight: canvas.height,
+      scale: normalizeScale(scale)
+    }
+
+    const worker = new WebWorker(downscaleWorker)
+    worker.postMessage(data)
+
     worker.addEventListener('message', event => {
       resolve(createResultCanvas(event.data))
     })
@@ -77,9 +77,9 @@ function createResultCanvas(target) {
   // convert float32 array into a UInt8Clamped Array
   for (let pixelIndex = 0, sourceIndex = 0, targetIndex = 0; pixelIndex < target.width * target.height; sourceIndex += 4, targetIndex += 4, pixelIndex++) {
     imageData[targetIndex] = Math.ceil(target.buffer[sourceIndex]);
-    imageData[targetIndex + 1] = Math.ceil(target.buffer[sourceIndex + 1]);
-    imageData[targetIndex + 2] = Math.ceil(target.buffer[sourceIndex + 2]);
-    imageData[targetIndex + 3] = Math.ceil(target.buffer[sourceIndex + 3]);
+    imageData[targetIndex + 1] = Math.ceil(target.buffer[sourceIndex + 1])
+    imageData[targetIndex + 2] = Math.ceil(target.buffer[sourceIndex + 2])
+    imageData[targetIndex + 3] = Math.ceil(target.buffer[sourceIndex + 3])
   }
 
   context.putImageData(imageResult, 0, 0)

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import DownloadButton from 'components/DownloadButton'
 
 const DerivativesDownloader = ({downloadAll, disabled}) => (

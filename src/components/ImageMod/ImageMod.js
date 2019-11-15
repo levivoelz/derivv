@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 import Dialog, { DialogTitle, DialogContent, DialogActions } from 'material-ui/Dialog'
 import IconButton from 'material-ui/IconButton'
 import Button from 'material-ui/Button'
-import CropIcon from 'material-ui-icons/Crop'
+import TextField from 'material-ui/TextField'
+import EditIcon from 'material-ui-icons/Edit'
 import ImageEditor from 'react-avatar-editor'
 
 class ImageMod extends Component {
   state = {
-    open: false
+    open: false,
+    name: this.props.image.name
   }
 
   openDialog = () => {
@@ -18,6 +20,12 @@ class ImageMod extends Component {
     this.setState({ open: false })
   }
 
+  handleNameChange = e => {
+    this.setState({
+      name: e.target.value
+    })
+  }
+
   updateImage = () => {
     this.closeDialog()
     this.props.processOne(this.props.originalImage, {
@@ -25,11 +33,13 @@ class ImageMod extends Component {
       width: this.props.image.width,
       height: this.props.image.height,
       id: this.props.image.id,
+      name: this.state.name,
       resizeType: 'resizeByCoordinates'
     })
   }
 
-  setEditorRef = (editor) => this.editor = editor
+  setEditorRef = editor => this.editor = editor
+  setNameRef = ref => this.name = ref
 
   render() {
     return (
@@ -40,13 +50,13 @@ class ImageMod extends Component {
           color='primary'
           disabled={this.props.image.resizeType === 'resizeProportionally'}
           style={{width: 30, height: 30, padding: 3, fontSize: '1.2rem'}}>
-          <CropIcon />
+          <EditIcon />
         </IconButton>
         <Dialog
           open={this.state.open}
           onClose={this.closeDialog}
           maxWidth={false}>
-          <DialogTitle>Adjust crop</DialogTitle>
+          <DialogTitle>Edit image crop and name</DialogTitle>
           <DialogContent>
             <ImageEditor
               ref={this.setEditorRef}
@@ -55,6 +65,13 @@ class ImageMod extends Component {
               height={this.props.image.height}
               border={[25, 25]}
               scale={1} />
+          </DialogContent>
+          <DialogContent>
+            <TextField
+              id='name'
+              label='Name'
+              onChange={this.handleNameChange}
+              value={this.state.name} />
           </DialogContent>
           <DialogActions>
             <Button onClick={this.closeDialog} color='primary'>

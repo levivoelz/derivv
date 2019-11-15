@@ -103,7 +103,7 @@ export function processAll(image, configs) {
 }
 
 export function processOne(image, config) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(start(config.id))
     dispatch(disableDownload())
     setTimeout(() => {
@@ -134,7 +134,7 @@ const _resize = (image, config) => {
         id: config.id,
         src: URL.createObjectURL(blob),
         blob,
-        name: `${expandedFileName.name}-${width}_x_${height}`,
+        name: config.name || `${expandedFileName.name}-${width}_x_${height}`,
         extension: expandedFileName.extension,
         width,
         height

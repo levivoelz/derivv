@@ -29,7 +29,7 @@ const activeStyle = {
   opacity: 0.5
 }
 
-function MyDropzone(props) {
+function Uploader(props) {
   const {addImage, image, loading, clearAllDerivatives} = props
   const onDrop = useCallback(acceptedFiles => {
     clearAllDerivatives()
@@ -61,4 +61,4 @@ function MyDropzone(props) {
   )
 }
 
-export default MyDropzone
+export default Uploader

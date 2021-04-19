@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
-import Button from 'material-ui/Button'
-import FileUploadIcon from 'material-ui-icons/FileUpload'
-import { CircularProgress } from 'material-ui/Progress'
+import PublishIcon from '@material-ui/icons/Publish'
+import { Button, CircularProgress } from '@material-ui/core';
 
 class ConfigImport extends Component {
   openFileDialog = () => {
@@ -22,7 +21,7 @@ class ConfigImport extends Component {
           onClick={this.openFileDialog}>
           {this.props.importing
             ? <CircularProgress size={24} style={{marginRight: 5}} />
-            : <FileUploadIcon />}
+            : <PublishIcon />}
           Import CSV
         </Button>
         <input

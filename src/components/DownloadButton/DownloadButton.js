@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from 'material-ui/Button'
+import { Button } from '@material-ui/core';
 
 export const DownloadButton = ({onClick, disabled}) => {
   if (disabled) {
@@ -9,7 +9,7 @@ export const DownloadButton = ({onClick, disabled}) => {
   return (
     <Button
       color='primary'
-      variant='raised'
+      variant='contained'
       style={{marginTop: 10}}
       onClick={onClick}>
         Download All

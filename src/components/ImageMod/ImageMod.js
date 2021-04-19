@@ -1,10 +1,16 @@
 import React, { Component } from 'react'
-import Dialog, { DialogTitle, DialogContent, DialogActions } from 'material-ui/Dialog'
-import IconButton from 'material-ui/IconButton'
-import Button from 'material-ui/Button'
-import TextField from 'material-ui/TextField'
-import EditIcon from 'material-ui-icons/Edit'
+import EditIcon from '@material-ui/icons/Edit'
 import ImageEditor from 'react-avatar-editor'
+
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  IconButton,
+  Button,
+  TextField,
+} from '@material-ui/core';
 
 class ImageMod extends Component {
   state = {

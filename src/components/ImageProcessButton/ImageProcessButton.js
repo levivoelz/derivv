@@ -1,6 +1,6 @@
 import React from 'react'
-import Button from 'material-ui/Button'
 import 'blueimp-canvas-to-blob'
+import { Button } from '@material-ui/core';
 
 export const ImageProcessButton = (props) => {
   const {image, dimensionsList, processAll} = props
@@ -17,7 +17,7 @@ export const ImageProcessButton = (props) => {
     <Button
       disabled={disabled}
       color='primary'
-      variant='raised'
+      variant='contained'
       onClick={handleClick}
       style={{width: '100%'}}>
         Create Derivative Images

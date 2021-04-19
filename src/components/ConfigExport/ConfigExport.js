@@ -1,7 +1,6 @@
 import React from 'react'
-import Button from 'material-ui/Button'
-import FileDownloadIcon from 'material-ui-icons/FileDownload'
-import { CircularProgress } from 'material-ui/Progress'
+import FileDownloadIcon from '@material-ui/icons/GetApp'
+import { Button, CircularProgress } from '@material-ui/core'
 
 const ConfigExport = ({exportCSV, exporting}) => (
   <Button color='primary' onClick={exportCSV}>

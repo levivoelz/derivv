@@ -1,8 +1,8 @@
 import React from 'react'
 import ImageCaption from 'components/ImageCaption'
-import { LinearProgress } from 'material-ui/Progress'
-
 import './ImageList.css'
+
+import { LinearProgress } from '@material-ui/core';
 
 export const Image = ({image, originalImage, processOne, processing}) => {
   if (processing === image.id) {

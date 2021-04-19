@@ -1,6 +1,6 @@
 import React from 'react'
 import ImageList from 'components/ImageList'
-import { LinearProgress } from 'material-ui/Progress'
+import { LinearProgress } from '@material-ui/core';
 
 const ImageDisplayer = (props) => {
   if (props.processing === true) {

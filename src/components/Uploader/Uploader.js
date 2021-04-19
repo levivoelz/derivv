@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
-import Button from 'material-ui/Button'
-import { CircularProgress } from 'material-ui/Progress'
 
 import './Uploader.css'
 
 // ImagePreview
 import placeholder from './assets/image-placeholder.svg'
+
+import { Button, CircularProgress } from '@material-ui/core';
 
 export const ImagePreview = ({ image }) => {
   return (
@@ -50,7 +50,7 @@ function Uploader(props) {
         <div className='uploader--right'>
           <h2>Drop or</h2>
           <Button
-            variant='raised'
+            variant='contained'
             color='primary'
             style={{width: '100%', marginTop: 10}}>
             choose an image

@@ -1,10 +1,10 @@
 import React from 'react'
-import TextField from 'material-ui/TextField'
-import IconButton from 'material-ui/IconButton'
-import AddIcon from 'material-ui-icons/Add'
-import RemoveIcon from 'material-ui-icons/Remove'
+import AddIcon from '@material-ui/icons/Add'
+import RemoveIcon from '@material-ui/icons/Remove'
 
 import './Dimensions.css'
+
+import { TextField, IconButton } from '@material-ui/core';
 
 export const Dimensions = (props) => {
   const {

@@ -1,9 +1,9 @@
 import React from 'react'
-import IconButton from 'material-ui/IconButton'
-import FileDownloadIcon from 'material-ui-icons/FileDownload'
+import FileDownloadIcon from '@material-ui/icons/GetApp'
 import ImageMod from 'components/ImageMod'
-
 import './ImageCaption.css'
+
+import { IconButton } from '@material-ui/core';
 
 const truncate = (str, width) => {
   const thresh = Math.max(Math.floor(width / 12), 20)

@@ -5,12 +5,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "cypress:open": "cypress open",
+    "test": "cypress open",
     "eject": "react-scripts eject",
     "aws:sync": "aws s3 sync ./build s3://derivv.com --delete",
     "aws:bustcache": "aws cloudfront create-invalidation --distribution-id E2MQXBB02THV2B --paths /index.html",
-    "deploy": "yarn build && yarn aws:sync && yarn aws:bustcache"
+    "deploy": "npm run build && npm run aws:sync && yarn aws:bustcache"
   },
   "dependencies": {
     "blueimp-canvas-to-blob": "^3.28.0",
@@ -36,11 +35,7 @@
   "devDependencies": {
     "cypress": "^7.1.0",
     "cypress-file-upload": "^5.0.6",
-    "enzyme": "^3.3.0",
-    "enzyme-adapter-react-16": "^1.1.1",
-    "enzyme-to-json": "^3.3.1",
-    "eslint-config-airbnb": "^18.0.1",
-    "react-test-renderer": "^16.2.0"
+    "eslint-config-airbnb": "^18.2.1"
   },
   "browserslist": [
     ">0.2%",

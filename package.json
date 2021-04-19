@@ -18,7 +18,7 @@
     "bugsnag-js": "^4.0.3",
     "bugsnag-react": "^1.0.0",
     "file-saver": "^2.0.5",
-    "jszip": "^3.1.5",
+    "jszip": "^3.6.0",
     "material-ui": "1.0.0-beta.38",
     "material-ui-icons": "^1.0.0-beta.36",
     "papaparse": "^4.3.6",

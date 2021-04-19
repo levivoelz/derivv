@@ -7,8 +7,13 @@
   align-items: center;
 }
 
+.uploader.drag-active {
+  opacity: 0.5;
+}
+
 .uploader--content {
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: space-around;
 }

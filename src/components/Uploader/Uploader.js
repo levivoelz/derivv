@@ -1,5 +1,5 @@
-import React from 'react'
-import Dropzone from 'react-dropzone'
+import React, { useCallback } from 'react'
+import { useDropzone } from 'react-dropzone'
 import Button from 'material-ui/Button'
 import { CircularProgress } from 'material-ui/Progress'
 
@@ -8,16 +8,38 @@ import './Uploader.css'
 // ImagePreview
 import placeholder from './assets/image-placeholder.svg'
 
-export const ImagePreview = ({image}) => {
+export const ImagePreview = ({ image }) => {
   return (
     <img src={image || placeholder} alt='preview' className='uploader--preview' />
   )
 }
 
-export const Uploader = (props) => {
+const handleDrop = (images) => {
+  const image = images[0];
+  clearAllDerivatives()
+  addImage(image)
+}
+
+const baseStyle = {
+  width: '100%',
+  height: '100%'
+}
+
+const activeStyle = {
+  opacity: 0.5
+}
+
+function MyDropzone(props) {
   const {addImage, image, loading, clearAllDerivatives} = props
-  const renderContent = () => {
-    return (
+  const onDrop = useCallback(acceptedFiles => {
+    clearAllDerivatives()
+    addImage(acceptedFiles[0])
+  }, [])
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
+
+  return (
+    <div className={`uploader ${isDragActive && 'drag-active'}`} {...getRootProps()}>
+      <input {...getInputProps()} />
       <div className='uploader--content'>
         <div className='uploader--left'>
           {loading
@@ -35,37 +57,8 @@ export const Uploader = (props) => {
           </Button>
         </div>
       </div>
-    )
-  }
-
-  const handleDrop = (images) => {
-    const image = images[0];
-    clearAllDerivatives()
-    addImage(image)
-  }
-
-  const baseStyle = {
-    width: '100%',
-    height: '100%'
-  }
-
-  const activeStyle = {
-    opacity: 0.5
-  }
-
-  return (
-    <div className='uploader'>
-      <Dropzone
-        className='dropzone'
-        accept='image/*'
-        onDrop={handleDrop}
-        activeStyle={activeStyle}
-        style={baseStyle}
-        multiple={false}>
-        {renderContent()}
-      </Dropzone>
     </div>
   )
 }
 
-export default Uploader
+export default MyDropzone

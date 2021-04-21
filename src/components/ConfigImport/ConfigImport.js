@@ -4,13 +4,17 @@ import PublishIcon from '@material-ui/icons/Publish'
 import { Button, CircularProgress } from '@material-ui/core';
 
 class ConfigImport extends Component {
+  constructor(props) {
+    super(props);
+    this.input = React.createRef()
+  }
   openFileDialog = () => {
-    findDOMNode(this.input).click()
+    findDOMNode(this.input.current).click()
   }
 
   handleChange = (e) => {
     this.props.importCSV(e.target.files[0])
-    this.input.value = null
+    this.input.current.value = null
   }
 
   render() {
@@ -25,7 +29,7 @@ class ConfigImport extends Component {
           Import CSV
         </Button>
         <input
-          ref={(r) => {this.input = r}}
+          ref={this.input}
           onChange={this.handleChange}
           style={{display: 'none'}}
           type='file'

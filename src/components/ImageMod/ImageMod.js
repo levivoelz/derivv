@@ -10,7 +10,7 @@ import {
   IconButton,
   Button,
   TextField,
-} from '@material-ui/core';
+} from '@material-ui/core'
 
 class ImageMod extends Component {
   state = {

@@ -21,8 +21,8 @@ function worker() {
       index: 0,
       roundedX: 0,
       roundedY: 0,
-      width: Math.ceil(source.width * scale),
-      height: Math.ceil(source.height * scale),
+      width: Math.floor(source.width * scale),
+      height: Math.floor(source.height * scale),
     };
 
     target.buffer = new Float32Array(4 * target.width * target.height); // Float32 rgba

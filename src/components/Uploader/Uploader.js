@@ -35,7 +35,7 @@ function Uploader(props) {
     clearAllDerivatives()
     addImage(acceptedFiles[0])
   }, [])
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, accept: 'image/*' })
 
   return (
     <div className={`uploader ${isDragActive && 'drag-active'}`} {...getRootProps()}>

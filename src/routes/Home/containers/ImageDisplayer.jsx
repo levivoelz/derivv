@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import ImageDisplayer from 'components/ImageDisplayer'
-import { processOne } from 'modules/derivative'
+import ImageDisplayer from '@/components/ImageDisplayer'
+import { processOne } from '@/modules/derivative'
 
 const mapStateToProps = (state) => ({
   images: state.derivative.images,

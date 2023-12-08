@@ -1,6 +1,6 @@
 import saveAs from 'file-saver'
 import JSZip from 'jszip'
-import resizeImage from 'lib/resizeImage'
+import resizeImage from '@/lib/resizeImage.js'
 
 // ------------------------------------
 // Constants

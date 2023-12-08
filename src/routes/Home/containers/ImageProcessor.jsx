@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
-import { processAll } from 'modules/derivative'
+import { processAll } from '@/modules/derivative'
 
-import ImageProcessButton from 'components/ImageProcessButton'
+import ImageProcessButton from '@/components/ImageProcessButton'
 
 const mapStateToProps = (state) => ({
   dimensionsList: state.configuration.dimensionsList,

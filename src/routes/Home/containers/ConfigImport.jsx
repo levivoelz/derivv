@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import { actions } from 'modules/configuration'
-import ConfigImport from 'components/ConfigImport'
+import { actions } from '@/modules/configuration'
+import ConfigImport from '@/components/ConfigImport'
 
 const mapStateToProps = (state) => ({
   dimensionsList: state.configuration.dimensionsList,

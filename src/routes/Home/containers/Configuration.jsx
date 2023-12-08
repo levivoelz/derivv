@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
-import { actions } from 'modules/configuration'
+import { actions } from '@/modules/configuration'
 
-import ConfigList from 'components/ConfigList'
+import ConfigList from '@/components/ConfigList'
 
 const { addDimensions, removeDimensions, updateDimensions } = actions
 

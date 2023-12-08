@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Home } from 'routes'
+import { Home } from '@/routes'
 // import Dialog, { DialogTitle, DialogContent, DialogContentText } from '@material-ui/core/Dialog'
 
 class App extends Component {

@@ -1,5 +1,5 @@
 import React from 'react'
-import Dimensions from 'components/Dimensions'
+import Dimensions from '@/components/Dimensions'
 import './ConfigList.css'
 
 export const ConfigList = (props) => {

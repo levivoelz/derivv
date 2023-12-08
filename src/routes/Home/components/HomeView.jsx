@@ -1,11 +1,12 @@
 import React from 'react'
 
+import CoreLayout from '@/layouts/CoreLayout'
+
 import Uploader from '../containers/Uploader'
 import Configuration from '../containers/Configuration'
 import ImageProcessor from '../containers/ImageProcessor'
 import ImageDisplayer from '../containers/ImageDisplayer'
 import DerivativesDownloader from '../containers/DerivativesDownloader'
-import CoreLayout from 'layouts/CoreLayout'
 import ConfigExport from '../containers/ConfigExport'
 import ConfigImport from '../containers/ConfigImport'
 

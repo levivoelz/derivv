@@ -1,8 +1,8 @@
 import { connect } from 'react-redux'
-import { addImage } from 'modules/originalImage'
-import { clearAll } from 'modules/derivative'
+import { addImage } from '@/modules/originalImage'
+import { clearAll } from '@/modules/derivative'
 
-import Uploader from 'components/Uploader'
+import Uploader from '@/components/Uploader'
 
 const mapStateToProps = (state) => ({
   image: state.originalImage.file,

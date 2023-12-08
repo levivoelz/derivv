@@ -1,5 +1,5 @@
 import React from 'react'
-import ImageCaption from 'components/ImageCaption'
+import ImageCaption from '@/components/ImageCaption'
 import './ImageList.css'
 
 import { LinearProgress } from '@material-ui/core';

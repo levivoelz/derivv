@@ -1,6 +1,6 @@
 import React from 'react'
 import FileDownloadIcon from '@material-ui/icons/GetApp'
-import ImageMod from 'components/ImageMod'
+import ImageMod from '@/components/ImageMod'
 import './ImageCaption.css'
 
 import { IconButton } from '@material-ui/core';

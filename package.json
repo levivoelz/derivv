@@ -4,10 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "cypress:open": "cypress open",
+    "start": "./bin/dev",
+    "build": "./bin/build",
+    "clean": "./bin/clean",
+    "preview": "./bin/preview",
     "aws:sync": "aws s3 sync ./dist s3://derivv.com --delete",
     "aws:bustcache": "aws cloudfront create-invalidation --distribution-id E2MQXBB02THV2B --paths /index.html",
     "deploy": "npm run build && npm run aws:sync && npm run aws:bustcache"
@@ -35,23 +35,11 @@
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
+    "vite": "^4.4.9",
     "@vitejs/plugin-react": "^4.2.1",
-    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.1",
-    "cypress": "^13.6.1",
-    "cypress-file-upload": "^5.0.6",
-    "enzyme": "^3.11.0",
-    "enzyme-to-json": "^3.6.2",
-    "react-test-renderer": "^17.0.2",
-    "vite": "^5.0.6",
+    "vite-plugin-ruby": "^3.2.2",
     "vite-tsconfig-paths": "^4.2.2",
     "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
-    "typescript": "^5.2.2"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+    "@types/react-dom": "^17.0.0"
+  }
 }

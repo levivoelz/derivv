@@ -1,0 +1,84 @@
+<head>
+
+</head>
+
+<head>
+    <title>Derivv | Resize an image to multiple sizes</title>
+    <meta
+      name="Description"
+      content="Derivv is a great way to quickly create multiple sizes of the same image."
+    />
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta
+      property="og:title"
+      content="Derivv | Resize an image to multiple sizes"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://derivv.com" />
+    <meta property="og:image" content="https://derivv.com/images/logo.png" />
+    <meta property="og:site_name" content="Derivv" />
+    <meta
+      property="og:description"
+      content="Derivv is a great way to quickly create multiple sizes of the same image."
+    />
+
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="{{ site.baseurl }}images/apple-touch-icon.png?v=3e8dyXlNnq"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{{ site.baseurl }}images/favicon-32x32.png?v=3e8dyXlNnq"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="{{ site.baseurl }}images/favicon-16x16.png?v=3e8dyXlNnq"
+    />
+    <link
+      rel="mask-icon"
+      href="{{ site.baseurl }}images/safari-pinned-tab.svg?v=3e8dyXlNnq"
+      color="#5bbad5"
+    />
+    <link rel="shortcut icon" href="{{ site.baseurl }}images/favicon.ico?v=3e8dyXlNnq" />
+
+    <meta name="apple-mobile-web-app-title" content="Derivv" />
+    <meta name="application-name" content="Derivv" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta
+      name="msapplication-config"
+      content="/browserconfig.xml?v=3e8dyXlNnq"
+    />
+
+    {% if jekyll.environment == "development" %}
+    <script type="module">
+      import RefreshRuntime from "/vite-dev/@react-refresh";
+      RefreshRuntime.injectIntoGlobalHook(window);
+      window.$RefreshReg$ = () => { };
+      window.$RefreshSig$ = () => (type) => type;
+      window.__vite_plugin_react_preamble_installed__ = true;
+    </script>
+    {% endif %}
+    {% vite_client_tag %}
+    {% vite_typescript_tag index.tsx %}
+    <!-- {% vite_stylesheet_tag index %} -->
+
+    <!-- <link rel="stylesheet" href="/mui-styles.css" /> -->
+    <!-- <link rel="stylesheet" href="/styles-v2.css?v=1" /> -->
+
+    <!-- for Buy me a Coffee Button -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Cookie"
+      rel="stylesheet"
+    />
+  </head>

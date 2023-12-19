@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -e
+
+rm -rf ./.jekyll-cache
+rm -rf ./_site
+rm -rf ./_src/.jekyll-cache
+# rm -rf ./node_modules

@@ -63,9 +63,10 @@ td {
 #root {
   padding: 40px;
   margin-bottom: 100px;
-  img {
-    max-width: initial;
-  }
+}
+
+#root img {
+  max-width: initial;
 }
 
 img {

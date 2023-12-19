@@ -8,7 +8,7 @@ import BugsnagPluginReact from "@bugsnag/plugin-react";
 import store from "../store";
 import App from "../App";
 
-import './index.css'
+// import './index.css'
 
 Bugsnag.start({
   apiKey: "c8e71c39cee3a9318f39dcd5132abe6d",

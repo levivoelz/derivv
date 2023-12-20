@@ -8,11 +8,11 @@ title: Derivv
 email: levi@hatchmatter.com
 description: >- # this means to ignore newlines until "baseurl:"
   Derivv is a browser based image processing website
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://derivv.com" # the base hostname & protocol for your site, e.g. http://example.com
 port: 4567
 twitter_username: jekyllrb
-github_username:  jekyll
+github_username: jekyll
 
 source: _src
 
@@ -20,6 +20,7 @@ plugins:
   - jekyll/vite
   - jekyll-feed
   - jekyll-multiple-languages-plugin
+  - jekyll-paginate
 
 languages: ["en", "es"]
 
@@ -48,3 +49,10 @@ exclude:
 # Custom variables:
 env:
   JEKYLL_ENV: development
+
+# Hyde Theme settings
+# Permalinks
+permalink: pretty
+paginate_path: "/blog/page:num/"
+
+paginate: 5
